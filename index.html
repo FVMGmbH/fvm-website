@@ -224,12 +224,26 @@ section.block{padding:120px 0;position:relative}
 .gc-row.wa .ic{background:rgba(37,211,102,.14);color:#25d366;border-color:rgba(37,211,102,.28)}
 .gc-row.wa .v{color:var(--teal2)}
 [data-theme="light"] .gc-row.wa .v{color:var(--teal)}
+.portal{display:grid;grid-template-columns:1fr 1.15fr;gap:48px;align-items:center}
+.portal-copy .eyebrow{margin-bottom:14px}
+.portal-copy h2{font-size:clamp(28px,3.4vw,40px);font-weight:600;margin-bottom:16px;letter-spacing:-1.2px}
+.portal-copy>p{color:var(--soft);font-size:16px;margin-bottom:22px;max-width:460px}
+.portal-points{list-style:none;display:grid;gap:12px;margin:0 0 28px}
+.portal-points li{display:flex;gap:12px;align-items:flex-start;font-size:15px;font-weight:500;color:var(--ink);letter-spacing:-.2px}
+[data-theme="dark"] .portal-points li{color:#fff}
+.portal-points .ck{width:26px;height:26px;border-radius:8px;background:rgba(51,183,172,.14);border:1px solid rgba(51,183,172,.3);color:var(--teal2);display:grid;place-items:center;font-size:12px;flex-shrink:0;margin-top:1px}
+.portal-visual{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:#0a1524;box-shadow:0 34px 80px -30px rgba(0,0,0,.65)}
+.portal-visual img{width:100%;height:auto;display:block;aspect-ratio:16/10;object-fit:cover;object-position:center top}
+.portal-visual .badge-float{position:absolute;left:14px;bottom:14px;background:rgba(10,26,47,.82);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(10px);color:#fff;padding:10px 14px;border-radius:12px;font-size:12.5px;font-weight:500;letter-spacing:-.1px}
+.portal-visual .badge-float strong{display:block;color:var(--teal2);font-size:13px;margin-bottom:2px}
+@media(max-width:900px){.portal{grid-template-columns:1fr;gap:28px}.portal-copy{order:1}.portal-visual{order:2}}
 @media(max-width:640px){
   .story{margin-top:36px}
   .slider-stage img{height:200px;min-height:180px;max-height:220px}
   .slider-btn{width:36px;height:36px}
   .slider-body{padding:14px 16px 12px}
   .slider-nav{padding:0 16px 14px}
+  .portal-visual .badge-float{left:10px;bottom:10px;padding:8px 12px;font-size:12px}
 }
 
 /* CTA */
@@ -350,6 +364,7 @@ footer ul a:hover{color:var(--gold)}
     <ul class="navlinks" id="menu">
       <li><a href="#leistungen">Leistungen</a></li>
       <li><a href="#service">Ordner-Service</a></li>
+      <li><a href="#portal">Kundenportal</a></li>
       <li><a href="#ueber">Über uns</a></li>
       <li><a href="#kontakt">Kontakt</a></li>
       <li class="nav-cta-mobile"><a href="#kontakt" class="btn btn-primary">Kontakt aufnehmen</a></li>
@@ -457,7 +472,7 @@ footer ul a:hover{color:var(--gold)}
     <div class="story reveal">
       <div class="story-head">
         <h3>So funktioniert der Ordner-Service</h3>
-        <p>Vom ersten Ordner bis zum Kundenportal – in sechs klaren Schritten.</p>
+        <p>Vom ersten Ordner bis zur Digitalisierung – in fünf klaren Schritten.</p>
       </div>
       <div class="slider" id="story-slider" aria-roledescription="Karussell">
         <div class="slider-stage">
@@ -476,8 +491,33 @@ footer ul a:hover{color:var(--gold)}
         </div>
         <div class="slider-nav">
           <div class="slider-dots" id="story-dots" role="tablist" aria-label="Schritte"></div>
-          <div class="slider-count"><span id="story-pos">1</span> / 6</div>
+          <div class="slider-count"><span id="story-pos">1</span> / 5</div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KUNDENPORTAL -->
+<section class="block" id="portal">
+  <div class="container">
+    <div class="portal">
+      <div class="portal-copy reveal">
+        <div class="eyebrow">Immer dabei</div>
+        <h2>Ihr persönliches Kundenportal</h2>
+        <p>Das Ergebnis des Ordner-Service: Alle Verträge und Dokumente digital – übersichtlich auf dem PC und unterwegs auf dem Handy.</p>
+        <ul class="portal-points">
+          <li><span class="ck">✓</span><span>Verträge jederzeit einsehen und den Überblick behalten</span></li>
+          <li><span class="ck">✓</span><span>Dokumente digital abrufen – statt im Ordner suchen</span></li>
+          <li><span class="ck">✓</span><span>Nachrichten und Zahlungen an einem Ort</span></li>
+          <li><span class="ck">✓</span><span>Auch mobil nutzbar – wann und wo Sie wollen</span></li>
+        </ul>
+        <a href="#service" class="btn btn-primary">Mit Ordner-Service starten
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+      <div class="portal-visual reveal">
+        <img src="assets/kundenportal.jpg" alt="FVM Kundenportal auf Laptop und Smartphone – Übersicht mit Verträgen und Dokumenten" width="1600" height="1000" loading="lazy">
+        <div class="badge-float"><strong>Kundenportal</strong>Verträge · Dokumente · mobil</div>
       </div>
     </div>
   </div>
@@ -618,8 +658,7 @@ const storySlides=[
   {src:'assets/ordner-02-uebergabe.jpg',alt:'Übergabe der Unterlagen an den Makler',label:'Übergabe',title:'Sie geben ab – wir übernehmen',text:'Persönlich in Rockenhausen oder per Absprache. Einmal abgeben reicht.'},
   {src:'assets/ordner-03-pruefen.jpg',alt:'Prüfung der Versicherungsverträge',label:'Prüfung',title:'Verträge unter die Lupe',text:'Wir prüfen Ihren Bestand auf Sinn, Lücken und bessere Alternativen am Markt.'},
   {src:'assets/ordner-04-ordnen.jpg',alt:'Sauber sortierte Versicherungsordner',label:'Ordnung',title:'Alles an seinem Platz',text:'Strukturierte Ordner statt Zettelwirtschaft – für Sie und für uns als Makler.'},
-  {src:'assets/ordner-05-digital.jpg',alt:'Digitalisierung der Versicherungsdokumente',label:'Digitalisierung',title:'Papier wird digital',text:'Ihre Unterlagen werden erfasst und sicher abgelegt – kein Suchen mehr in Stapeln.'},
-  {src:'assets/ordner-06-portal.jpg',alt:'Kundenportal mit Verträgen und Dokumenten',label:'Kundenportal',title:'Immer alles im Blick',text:'Verträge und Dokumente in Ihrem persönlichen Kundenportal – auch unterwegs.'}
+  {src:'assets/ordner-05-digital.jpg',alt:'Digitalisierung der Versicherungsdokumente',label:'Digitalisierung',title:'Papier wird digital',text:'Ihre Unterlagen werden erfasst und sicher abgelegt – kein Suchen mehr in Stapeln.'}
 ];
 (function(){
   const root=document.getElementById('story-slider');
@@ -631,6 +670,8 @@ const storySlides=[
   const text=document.getElementById('story-text');
   const pos=document.getElementById('story-pos');
   const dots=document.getElementById('story-dots');
+  const totalEl=root.querySelector('.slider-count');
+  if(totalEl)totalEl.innerHTML='<span id="story-pos">1</span> / '+storySlides.length;
   let i=0;
   storySlides.forEach((_,idx)=>{
     const b=document.createElement('button');
@@ -647,7 +688,8 @@ const storySlides=[
     label.textContent=s.label;
     title.textContent=s.title;
     text.textContent=s.text;
-    pos.textContent=String(i+1);
+    const posNow=document.getElementById('story-pos');
+    if(posNow)posNow.textContent=String(i+1);
     [...dots.children].forEach((d,di)=>d.setAttribute('aria-current',di===i?'true':'false'));
   }
   document.getElementById('story-prev').addEventListener('click',()=>go(i-1));
