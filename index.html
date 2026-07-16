@@ -29,8 +29,9 @@
   --grid-op:.045; --hair:rgba(169,127,42,.5);
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Sora',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .5s,color .5s;font-weight:400}
+html{scroll-behavior:smooth;overflow-x:hidden;overscroll-behavior-x:none;overscroll-behavior-y:none}
+body{font-family:'Sora',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden;overscroll-behavior-x:none;overscroll-behavior-y:none;touch-action:pan-y;width:100%;max-width:100%;transition:background .5s,color .5s;font-weight:400}
+#hdr,.hero,.block,.container{max-width:100%}
 h1,h2,h3,h4{font-family:'Sora',sans-serif;line-height:1.14;color:var(--ink);letter-spacing:-1.2px;font-weight:600}
 [data-theme="dark"] h1,[data-theme="dark"] h2,[data-theme="dark"] h3,[data-theme="dark"] h4{color:#fff}
 a{text-decoration:none;color:inherit}
@@ -162,19 +163,23 @@ section.block{padding:120px 0;position:relative}
 .check-list .ck{width:26px;height:26px;border-radius:8px;background:rgba(51,183,172,.14);border:1px solid rgba(51,183,172,.3);color:var(--teal2);display:grid;place-items:center;font-size:12px;flex-shrink:0}
 
 /* SERVICES */
-.topics{max-width:820px;margin:0 auto}
-.topics-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;margin:0}
-.topics-list li{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px;font-weight:500;color:var(--ink);letter-spacing:-.2px;line-height:1.45}
-[data-theme="dark"] .topics-list li{color:#fff}
-.topics-list li:nth-last-child(-n+2){border-bottom:none}
-.topics-list .dot{width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:8px}
-.topics-list small{display:block;font-size:12.5px;font-weight:400;color:var(--muted);margin-top:2px}
-.topics-note{text-align:center;margin-top:22px;font-size:14px;color:var(--muted);font-weight:400}
+.topics{max-width:920px;margin:0 auto}
+.topics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;list-style:none;margin:0;padding:0}
+.topic-pill{position:relative;display:block;background:var(--card-grad);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;overflow:hidden;backdrop-filter:blur(4px);transition:.35s cubic-bezier(.2,.8,.2,1)}
+.topic-pill::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(120deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:.35s}
+.topic-pill:hover{transform:translateY(-3px);border-color:rgba(203,161,78,.35);box-shadow:0 18px 40px -28px rgba(0,0,0,.45)}
+.topic-pill:hover::before{transform:scaleX(1)}
+.topic-pill strong{display:block;font-size:15px;font-weight:600;letter-spacing:-.3px;color:var(--ink);margin-bottom:4px}
+[data-theme="dark"] .topic-pill strong{color:#fff}
+.topic-pill span{display:block;font-size:12.5px;font-weight:400;color:var(--muted);line-height:1.45}
+.topics-note{text-align:center;margin-top:24px;font-size:14px;color:var(--muted);font-weight:400}
+@media(max-width:900px){.topics-grid{grid-template-columns:repeat(2,1fr);gap:12px}}
 @media(max-width:640px){
-  .topics-list{grid-template-columns:1fr;gap:0}
-  .topics-list li{padding:11px 0}
-  .topics-list li:nth-last-child(-n+2){border-bottom:1px solid var(--line)}
-  .topics-list li:last-child{border-bottom:none}
+  .topics-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .topic-pill{padding:14px 14px 12px;border-radius:14px}
+  .topic-pill strong{font-size:13.5px}
+  .topic-pill span{font-size:11.5px}
+  .topic-pill:hover{transform:none}
 }
 
 /* ORDNER-SERVICE */
@@ -424,17 +429,17 @@ footer ul a:hover{color:var(--gold)}
       <h2>Was wir für Sie begleiten</h2>
       <p>Als unabhängiger Versicherungsmakler vergleichen wir den Markt und finden das Passende für Sie – privat und gewerblich.</p>
     </div>
-    <div class="topics reveal">
-      <ul class="topics-list">
-        <li><span class="dot"></span><span>Altersvorsorge</span></li>
-        <li><span class="dot"></span><span>Haftpflicht, Unfall &amp; Rechtsschutz</span></li>
-        <li><span class="dot"></span><span>Existenzabsicherung</span></li>
-        <li><span class="dot"></span><span>Gesundheit</span></li>
-        <li><span class="dot"></span><span>Wohnen &amp; Leben<small>inkl. Kfz</small></span></li>
-        <li><span class="dot"></span><span>Baufinanzierung<small>Neubau, Kauf &amp; Modernisierung</small></span></li>
-        <li><span class="dot"></span><span>Firmenkunden<small>gewerbliche Absicherung</small></span></li>
+    <div class="topics">
+      <ul class="topics-grid">
+        <li class="topic-pill reveal"><strong>Altersvorsorge</strong><span>Lebensstandard im Alter sichern</span></li>
+        <li class="topic-pill reveal"><strong>Haftpflicht &amp; Rechtsschutz</strong><span>inkl. Unfallversicherung</span></li>
+        <li class="topic-pill reveal"><strong>Existenzabsicherung</strong><span>BU, Hinterbliebene &amp; Absicherung</span></li>
+        <li class="topic-pill reveal"><strong>Gesundheit</strong><span>Privat &amp; Zusatzversicherungen</span></li>
+        <li class="topic-pill reveal"><strong>Wohnen &amp; Leben</strong><span>Hausrat, Gebäude &amp; Kfz</span></li>
+        <li class="topic-pill reveal"><strong>Baufinanzierung</strong><span>Neubau, Kauf &amp; Modernisierung</span></li>
+        <li class="topic-pill reveal"><strong>Firmenkunden</strong><span>Gewerbliche Absicherung</span></li>
       </ul>
-      <p class="topics-note">Weitere Themen? Sprechen Sie uns einfach an – wir finden eine Lösung.</p>
+      <p class="topics-note reveal">Weitere Themen? Sprechen Sie uns einfach an – wir finden eine Lösung.</p>
     </div>
   </div>
 </section>
@@ -662,7 +667,31 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')setNavOpen(false)});
 const hdr=document.getElementById('hdr');
 window.addEventListener('scroll',()=>{hdr.classList.toggle('scrolled',window.scrollY>30)});
 const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
-document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%3*90)+'ms';io.observe(el)});
+let pillI=0,revealI=0;
+document.querySelectorAll('.reveal').forEach((el)=>{
+  const delay=el.classList.contains('topic-pill')?(pillI++)*70:(revealI++%3)*90;
+  el.style.transitionDelay=delay+'ms';
+  io.observe(el);
+});
+/* Block horizontal rubber-band / sideways page drag on mobile */
+(function(){
+  let sx=0,sy=0,axis=null;
+  document.addEventListener('touchstart',e=>{
+    if(!e.touches[0])return;
+    sx=e.touches[0].clientX;sy=e.touches[0].clientY;axis=null;
+  },{passive:true});
+  document.addEventListener('touchmove',e=>{
+    if(!e.touches[0]||e.touches.length>1)return;
+    if(e.target.closest('.slider-stage,.ba,.navlinks.open'))return;
+    const dx=e.touches[0].clientX-sx;
+    const dy=e.touches[0].clientY-sy;
+    if(!axis){
+      if(Math.abs(dx)<10&&Math.abs(dy)<10)return;
+      axis=Math.abs(dx)>Math.abs(dy)*1.15?'x':'y';
+    }
+    if(axis==='x')e.preventDefault();
+  },{passive:false});
+})();
 const co=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){const el=e.target,t=+el.dataset.count,sf=el.dataset.suffix||'';let n=0;const step=()=>{n+=t/40;if(n<t){el.textContent=Math.round(n)+sf;requestAnimationFrame(step)}else el.textContent=t+sf};step();co.unobserve(el)}})},{threshold:.5});
 document.querySelectorAll('[data-count]').forEach(c=>co.observe(c));
 const range=document.getElementById('range'),afterImg=document.getElementById('afterImg'),handle=document.getElementById('handle'),knob=document.getElementById('knob');
