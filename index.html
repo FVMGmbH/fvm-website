@@ -211,16 +211,17 @@ section.block{padding:120px 0;position:relative}
 
 /* ORDNER-SERVICE */
 .svc{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
-.ba{position:relative;width:100%;aspect-ratio:4/3;border-radius:22px;overflow:hidden;box-shadow:0 34px 80px -30px rgba(0,0,0,.6);border:1px solid var(--line);user-select:none;touch-action:none}
+.ba{position:relative;width:100%;aspect-ratio:4/3;border-radius:22px;overflow:hidden;box-shadow:0 34px 80px -30px rgba(0,0,0,.6);border:1px solid var(--line);user-select:none;touch-action:pan-y;cursor:ew-resize}
 .ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
 .ba .after{clip-path:inset(0 0 0 50%)}
-.ba .lbl{position:absolute;top:18px;z-index:4;padding:7px 15px;border-radius:8px;font-weight:600;font-size:11px;letter-spacing:1.5px;backdrop-filter:blur(8px)}
+.ba .lbl{position:absolute;top:18px;z-index:4;padding:7px 15px;border-radius:8px;font-weight:600;font-size:11px;letter-spacing:1.5px;backdrop-filter:blur(8px);pointer-events:none}
 .ba .lbl.l{left:18px;background:rgba(15,25,40,.72);color:#fff;border:1px solid rgba(255,255,255,.15)}
 .ba .lbl.r{right:18px;background:rgba(42,167,155,.85);color:#fff}
-.ba .handle{position:absolute;top:0;bottom:0;left:50%;width:2px;background:rgba(255,255,255,.9);z-index:3;box-shadow:0 0 20px rgba(0,0,0,.5);transform:translateX(-50%)}
-.ba .knob{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:5;width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.95);backdrop-filter:blur(4px);box-shadow:0 10px 28px rgba(0,0,0,.45);display:grid;place-items:center;cursor:ew-resize;color:#0b1d34;border:1px solid rgba(255,255,255,.6)}
+.ba .handle{position:absolute;top:0;bottom:0;left:50%;width:2px;background:rgba(255,255,255,.9);z-index:3;box-shadow:0 0 20px rgba(0,0,0,.5);transform:translateX(-50%);pointer-events:none}
+.ba .knob{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:5;width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.95);backdrop-filter:blur(4px);box-shadow:0 10px 28px rgba(0,0,0,.45);display:grid;place-items:center;cursor:ew-resize;color:#0b1d34;border:1px solid rgba(255,255,255,.6);pointer-events:none}
 .ba .knob svg{width:22px;height:22px}
-.ba .range{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;z-index:6;margin:0}
+.ba .range{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;z-index:6;margin:0;pointer-events:none}
+@media(hover:hover) and (pointer:fine){.ba .range{pointer-events:auto}}
 .svc .price-tag{display:inline-flex;align-items:baseline;gap:11px;margin:6px 0 24px}
 .svc .price-tag .amt{font-size:60px;font-weight:700;color:var(--ink);line-height:1;letter-spacing:-2px}
 [data-theme="dark"] .svc .price-tag .amt{color:#fff}
@@ -721,7 +722,7 @@ document.querySelectorAll('.reveal').forEach((el)=>{
   },{passive:true});
   document.addEventListener('touchmove',e=>{
     if(!e.touches[0]||e.touches.length>1)return;
-    if(e.target.closest('.slider-stage,.ba,.navlinks.open'))return;
+    if(e.target.closest('.slider-stage,.navlinks.open'))return;
     const dx=e.touches[0].clientX-sx;
     const dy=e.touches[0].clientY-sy;
     if(!axis){
@@ -733,9 +734,57 @@ document.querySelectorAll('.reveal').forEach((el)=>{
 })();
 const co=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){const el=e.target,t=+el.dataset.count,sf=el.dataset.suffix||'';let n=0;const step=()=>{n+=t/40;if(n<t){el.textContent=Math.round(n)+sf;requestAnimationFrame(step)}else el.textContent=t+sf};step();co.unobserve(el)}})},{threshold:.5});
 document.querySelectorAll('[data-count]').forEach(c=>co.observe(c));
-const range=document.getElementById('range'),afterImg=document.getElementById('afterImg'),handle=document.getElementById('handle'),knob=document.getElementById('knob');
-function setPos(v){afterImg.style.clipPath='inset(0 0 0 '+v+'%)';handle.style.left=v+'%';knob.style.left=v+'%'}
+const ba=document.getElementById('ba'),range=document.getElementById('range'),afterImg=document.getElementById('afterImg'),handle=document.getElementById('handle'),knob=document.getElementById('knob');
+function setPos(v){
+  v=Math.max(0,Math.min(100,+v));
+  if(afterImg)afterImg.style.clipPath='inset(0 0 0 '+v+'%)';
+  if(handle)handle.style.left=v+'%';
+  if(knob)knob.style.left=v+'%';
+  if(range)range.value=String(v);
+}
 if(range){range.addEventListener('input',e=>setPos(e.target.value));setPos(50)}
+/* Touch: vertikal scrollen, horizontal = Vorher/Nachher */
+(function(){
+  if(!ba)return;
+  let sx=0,sy=0,axis=null,dragging=false;
+  function pctFromX(clientX){
+    const r=ba.getBoundingClientRect();
+    return ((clientX-r.left)/r.width)*100;
+  }
+  ba.addEventListener('touchstart',e=>{
+    if(!e.touches[0])return;
+    sx=e.touches[0].clientX;sy=e.touches[0].clientY;axis=null;dragging=false;
+  },{passive:true});
+  ba.addEventListener('touchmove',e=>{
+    if(!e.touches[0])return;
+    const dx=e.touches[0].clientX-sx;
+    const dy=e.touches[0].clientY-sy;
+    if(!axis){
+      if(Math.abs(dx)<10&&Math.abs(dy)<10)return;
+      axis=Math.abs(dx)>Math.abs(dy)*1.1?'x':'y';
+    }
+    if(axis==='x'){
+      dragging=true;
+      e.preventDefault();
+      setPos(pctFromX(e.touches[0].clientX));
+    }
+  },{passive:false});
+  ba.addEventListener('touchend',()=>{axis=null;dragging=false},{passive:true});
+  /* Maus/Pointer zusätzlich zum Range */
+  ba.addEventListener('pointerdown',e=>{
+    if(e.pointerType==='touch')return;
+    if(e.target===range)return;
+    ba.setPointerCapture(e.pointerId);
+    dragging=true;
+    setPos(pctFromX(e.clientX));
+  });
+  ba.addEventListener('pointermove',e=>{
+    if(!dragging||e.pointerType==='touch')return;
+    setPos(pctFromX(e.clientX));
+  });
+  ba.addEventListener('pointerup',()=>{dragging=false});
+  ba.addEventListener('pointercancel',()=>{dragging=false});
+})();
 const storySlides=[
   {src:'assets/ordner-01-chaos.jpg',alt:'Ungeordnete Versicherungsunterlagen',label:'Ausgangslage',title:'Der Ordner-Chaos',text:'Policen, Nachträge und Rechnungen – oft über Jahre verteilt und schwer zu überblicken.'},
   {src:'assets/ordner-02-uebergabe.jpg',alt:'Übergabe der Unterlagen an den Makler',label:'Übergabe',title:'Sie geben ab – wir übernehmen',text:'Persönlich in Rockenhausen oder per Absprache. Einmal abgeben reicht.'},
