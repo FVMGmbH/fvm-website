@@ -31,6 +31,7 @@ header.scrolled{background:var(--header-bg);backdrop-filter:blur(20px) saturate(
 .nav-actions{display:flex;align-items:center;gap:13px;margin-left:auto}
 .theme-toggle{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:.3s}
 [data-theme="dark"] .theme-toggle{color:#fff}
+.theme-toggle{transition:border-color .25s,color .25s}
 .theme-toggle:hover{border-color:var(--gold);color:var(--gold)}
 .theme-toggle svg{width:20px;height:20px}
 .theme-toggle .sun{display:none}
