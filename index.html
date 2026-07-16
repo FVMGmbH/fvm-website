@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FVM GmbH – Ihr Versicherungsmakler in Rockenhausen</title>
 <meta name="description" content="FVM GmbH – Ihr unabhängiger Versicherungsmakler in Rockenhausen. Persönliche Beratung, Ordner-Service &amp; digitale Vertragsverwaltung.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -58,7 +59,10 @@ header.scrolled{background:var(--header-bg);backdrop-filter:blur(20px) saturate(
 .nav{display:flex;align-items:center;justify-content:space-between;height:84px;gap:20px}
 .logo{display:flex;align-items:center;gap:13px;font-weight:700;font-size:21px;letter-spacing:-.5px;color:var(--ink)}
 [data-theme="dark"] .logo{color:#fff}
-.logo .mark{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#2aa79b,#2f6fb0);color:#fff;display:grid;place-items:center;font-weight:700;font-size:15px;letter-spacing:-.5px;box-shadow:0 8px 20px -6px rgba(42,167,155,.6)}
+.logo img{height:48px;width:auto;display:block;object-fit:contain}
+[data-theme="dark"] .logo img{filter:brightness(0) invert(1)}
+[data-theme="light"] .logo img{filter:none}
+footer .logo img{height:44px}
 .navlinks{display:flex;gap:38px;list-style:none;font-weight:500;font-size:15px;margin-left:auto;letter-spacing:-.2px}
 .navlinks a{color:var(--soft);transition:.25s;position:relative}
 .navlinks a::after{content:"";position:absolute;left:0;bottom:-7px;width:0;height:1.5px;background:var(--gold);transition:.3s}
@@ -244,7 +248,7 @@ footer ul a:hover{color:var(--gold)}
 
 <header id="hdr">
   <div class="container nav">
-    <a href="#" class="logo"><span class="mark">FVM</span> FVM GmbH</a>
+    <a href="#" class="logo"><img src="assets/fvm-logo.png" alt="FVM GmbH – Versicherungsmakler Rockenhausen" width="324" height="48"></a>
     <ul class="navlinks" id="menu">
       <li><a href="#leistungen">Leistungen</a></li>
       <li><a href="#service">Ordner-Service</a></li>
@@ -423,7 +427,7 @@ footer ul a:hover{color:var(--gold)}
   <div class="container">
     <div class="foot-grid">
       <div>
-        <div class="logo"><span class="mark">FVM</span> FVM GmbH</div>
+        <div class="logo"><img src="assets/fvm-logo.png" alt="FVM GmbH" width="297" height="44"></div>
         <p>Ihr unabhängiger Versicherungsmakler in Rockenhausen – persönlich, individuell und immer auf Ihrer Seite.</p>
       </div>
       <div><h4>Leistungen</h4><ul>
