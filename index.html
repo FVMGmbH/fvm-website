@@ -62,21 +62,33 @@ a{text-decoration:none;color:inherit}
 .eyebrow::before{content:"";width:32px;height:1px;background:var(--hair)}
 
 /* HEADER */
-header{position:fixed;top:0;left:0;right:0;z-index:200;transition:.4s}
-header.scrolled{background:var(--header-bg);backdrop-filter:blur(20px) saturate(160%);border-bottom:1px solid var(--line)}
-.nav{display:flex;align-items:center;justify-content:space-between;height:84px;gap:20px}
+header{position:fixed;top:0;left:0;right:0;z-index:220;transition:background .4s,border-color .4s}
+header.scrolled{background:var(--header-bg);border-bottom:1px solid var(--line)}
+[data-theme="dark"] header.scrolled{background:rgba(10,26,47,.94)}
+[data-theme="light"] header.scrolled{background:rgba(238,243,248,.94)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:84px;gap:20px;position:relative;z-index:221}
 .logo{display:flex;align-items:center;gap:13px;font-weight:700;font-size:21px;letter-spacing:-.5px;color:var(--ink)}
 [data-theme="dark"] .logo{color:#fff}
 .logo img{height:48px;width:auto;display:block;object-fit:contain}
 [data-theme="dark"] .logo img{filter:brightness(0) invert(1)}
 [data-theme="light"] .logo img{filter:none}
 footer .logo img{height:44px}
-.navlinks{display:flex;gap:38px;list-style:none;font-weight:500;font-size:15px;margin-left:auto;letter-spacing:-.2px}
+.navlinks{display:flex;gap:38px;list-style:none;font-weight:500;font-size:15px;letter-spacing:-.2px;margin:0;padding:0}
 .navlinks a{color:var(--soft);transition:.25s;position:relative}
 .navlinks a::after{content:"";position:absolute;left:0;bottom:-7px;width:0;height:1.5px;background:var(--gold);transition:.3s}
 .navlinks a:hover::after{width:100%}
 .navlinks a:hover{color:var(--ink)}
 [data-theme="dark"] .navlinks a:hover{color:#fff}
+@media(min-width:901px){
+  .navlinks{
+    position:fixed;top:0;left:max(180px,16vw);right:max(200px,18vw);height:84px;z-index:210;
+    align-items:center;justify-content:center;flex-direction:row;gap:32px;
+    background:transparent;border:none;transform:none;overflow:visible;
+    pointer-events:none;padding:0;width:auto;bottom:auto;max-height:none
+  }
+  .navlinks li{pointer-events:auto;width:auto}
+  .nav-cta-mobile{display:none!important}
+}
 .nav-actions{display:flex;align-items:center;gap:10px;flex-shrink:0}
 .nav-cta-desktop{display:inline-flex}
 .theme-toggle{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:border-color .25s,color .25s;flex-shrink:0}
@@ -319,21 +331,31 @@ footer ul a:hover{color:var(--gold)}
   .nav-cta-desktop{display:none}
   .burger{display:inline-flex}
   .navlinks{
-    position:fixed;top:0;right:0;bottom:0;width:min(320px,88vw);
-    margin:0;padding:96px 24px 28px;flex-direction:column;gap:6px;
-    background:var(--header-bg);backdrop-filter:blur(20px) saturate(160%);
-    border-left:1px solid var(--line);z-index:190;
+    position:fixed;top:0;right:0;width:min(320px,88vw);
+    height:100dvh;max-height:100dvh;
+    margin:0;padding:calc(72px + env(safe-area-inset-top,0px)) 24px calc(28px + env(safe-area-inset-bottom,0px));
+    flex-direction:column;gap:6px;justify-content:flex-start;
+    background:var(--header-bg);
+    border-left:1px solid var(--line);z-index:230;
     transform:translateX(105%);transition:transform .35s cubic-bezier(.2,.8,.2,1);
-    display:flex;overflow-y:auto
+    display:flex;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;pointer-events:auto
   }
+  [data-theme="dark"] .navlinks{background:rgba(10,26,47,.98)}
+  [data-theme="light"] .navlinks{background:rgba(238,243,248,.98)}
   .navlinks.open{transform:translateX(0)}
-  .navlinks li{width:100%}
+  .navlinks li{width:100%;flex-shrink:0}
   .navlinks a{display:block;padding:14px 12px;border-radius:10px;font-size:16px}
   .navlinks a::after{display:none}
   .navlinks a:hover{background:rgba(51,183,172,.1);color:var(--ink)}
   [data-theme="dark"] .navlinks a:hover{color:#fff}
   .nav-cta-mobile{display:block;width:100%;margin-top:14px;padding-top:18px;border-top:1px solid var(--line)}
   .nav-cta-mobile .btn{width:100%;justify-content:center}
+  .nav-backdrop{z-index:225}
+  body.nav-open{overflow:hidden;touch-action:none}
+  body.nav-open header{background:var(--header-bg)}
+  [data-theme="dark"] body.nav-open header{background:rgba(10,26,47,.98)}
+  [data-theme="light"] body.nav-open header{background:rgba(238,243,248,.98)}
   .hero .container{gap:36px}
   .hero-stats{gap:24px;flex-wrap:wrap}
   .svc{gap:40px}
@@ -382,17 +404,17 @@ footer ul a:hover{color:var(--gold)}
 <div class="page-grid"></div>
 
 <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
+<ul class="navlinks" id="menu">
+  <li><a href="#leistungen">Leistungen</a></li>
+  <li><a href="#portal">Kundenportal</a></li>
+  <li><a href="#service">Ordner-Service</a></li>
+  <li><a href="#ueber">Über uns</a></li>
+  <li><a href="#kontakt">Kontakt</a></li>
+  <li class="nav-cta-mobile"><a href="#kontakt" class="btn btn-primary">Kontakt aufnehmen</a></li>
+</ul>
 <header id="hdr">
   <div class="container nav">
     <a href="#" class="logo"><img src="assets/fvm-logo.png" alt="FVM GmbH – Versicherungsmakler Rockenhausen" width="324" height="48"></a>
-    <ul class="navlinks" id="menu">
-      <li><a href="#leistungen">Leistungen</a></li>
-      <li><a href="#portal">Kundenportal</a></li>
-      <li><a href="#service">Ordner-Service</a></li>
-      <li><a href="#ueber">Über uns</a></li>
-      <li><a href="#kontakt">Kontakt</a></li>
-      <li class="nav-cta-mobile"><a href="#kontakt" class="btn btn-primary">Kontakt aufnehmen</a></li>
-    </ul>
     <div class="nav-actions">
       <button class="theme-toggle" onclick="toggleTheme()" aria-label="Farbmodus wechseln">
         <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
@@ -670,9 +692,10 @@ function setNavOpen(open){
   menu.classList.toggle('open',open);
   burger.classList.toggle('open',open);
   backdrop.classList.toggle('open',open);
+  document.body.classList.toggle('nav-open',open);
   burger.setAttribute('aria-expanded',open?'true':'false');
   burger.setAttribute('aria-label',open?'Menü schließen':'Menü öffnen');
-  document.body.style.overflow=open?'hidden':'';
+  backdrop.setAttribute('aria-hidden',open?'false':'true');
 }
 function toggleNav(){setNavOpen(!menu.classList.contains('open'))}
 if(burger)burger.addEventListener('click',toggleNav);
