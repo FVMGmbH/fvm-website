@@ -199,24 +199,38 @@ section.block{padding:120px 0;position:relative}
 .steps small{display:block;color:var(--muted);font-weight:400;font-size:13px}
 .hint{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted);font-weight:400;margin-top:16px}
 .hint svg{flex-shrink:0}
-.story{margin-top:64px}
-.story-head{max-width:640px;margin:0 auto 36px;text-align:center}
-.story-head h3{font-size:clamp(22px,3vw,30px);font-weight:600;margin-bottom:12px;letter-spacing:-.8px}
-.story-head p{color:var(--soft);font-size:16px}
-.story-track{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.story-card{background:var(--card-grad);border:1px solid var(--line);border-radius:18px;overflow:hidden;transition:.35s}
-.story-card:hover{transform:translateY(-4px);border-color:rgba(203,161,78,.35);box-shadow:0 22px 50px -28px rgba(0,0,0,.55)}
-.story-card img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block;background:#0d1f33}
-.story-card .body{padding:18px 18px 20px}
-.story-card .step{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
-.story-card .step b{width:22px;height:22px;border-radius:7px;background:rgba(203,161,78,.14);border:1px solid rgba(203,161,78,.35);display:grid;place-items:center;font-size:11px}
-.story-card h4{font-size:16px;font-weight:600;margin-bottom:6px;letter-spacing:-.3px}
-.story-card p{font-size:13.5px;color:var(--soft);font-weight:400;line-height:1.55;margin:0}
+.story{margin-top:56px;max-width:680px;margin-left:auto;margin-right:auto}
+.story-head{text-align:center;margin-bottom:22px}
+.story-head h3{font-size:clamp(22px,3vw,28px);font-weight:600;margin-bottom:8px;letter-spacing:-.8px}
+.story-head p{color:var(--soft);font-size:15px}
+.slider{background:var(--card-grad);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.slider-stage{position:relative;background:#0d1f33}
+.slider-stage img{width:100%;height:min(38vw,320px);max-height:320px;min-height:180px;object-fit:cover;display:block}
+.slider-btn{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(10,26,47,.72);color:#fff;display:grid;place-items:center;cursor:pointer;backdrop-filter:blur(8px);transition:.25s;z-index:2}
+.slider-btn:hover{background:rgba(42,167,155,.9);border-color:transparent}
+.slider-btn.prev{left:10px}
+.slider-btn.next{right:10px}
+.slider-btn svg{width:18px;height:18px}
+.slider-body{padding:18px 20px 16px}
+.slider-step{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+.slider-step b{width:22px;height:22px;border-radius:7px;background:rgba(203,161,78,.14);border:1px solid rgba(203,161,78,.35);display:grid;place-items:center;font-size:11px}
+.slider-body h4{font-size:17px;font-weight:600;margin-bottom:6px;letter-spacing:-.3px}
+.slider-body p{font-size:14px;color:var(--soft);font-weight:400;line-height:1.55;margin:0;min-height:2.8em}
+.slider-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 20px 16px}
+.slider-dots{display:flex;gap:7px;align-items:center}
+.slider-dots button{width:8px;height:8px;border-radius:50%;border:none;padding:0;background:var(--line);cursor:pointer;transition:.25s}
+.slider-dots button[aria-current="true"]{background:var(--gold);width:20px;border-radius:999px}
+.slider-count{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:.3px}
 .gc-row.wa .ic{background:rgba(37,211,102,.14);color:#25d366;border-color:rgba(37,211,102,.28)}
 .gc-row.wa .v{color:var(--teal2)}
 [data-theme="light"] .gc-row.wa .v{color:var(--teal)}
-@media(max-width:900px){.story-track{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:640px){.story-track{grid-template-columns:1fr;gap:14px}.story{margin-top:40px}}
+@media(max-width:640px){
+  .story{margin-top:36px}
+  .slider-stage img{height:200px;min-height:180px;max-height:220px}
+  .slider-btn{width:36px;height:36px}
+  .slider-body{padding:14px 16px 12px}
+  .slider-nav{padding:0 16px 14px}
+}
 
 /* CTA */
 .cta-band{position:relative;background:linear-gradient(130deg,#123556,#0a1d34);border:1px solid var(--line);border-radius:26px;padding:76px 56px;text-align:center;overflow:hidden}
@@ -307,6 +321,7 @@ footer ul a:hover{color:var(--gold)}
   .svc h2{font-size:clamp(22px,6vw,28px)}
   .about-visual .watermark{font-size:64px;right:12px}
   .panel-head .kpi b{font-size:36px}
+  .ba{aspect-ratio:16/11;max-height:260px}
   .ba .knob{width:46px;height:46px}
   .info-box{padding:28px 22px}
   .contact-grid{gap:32px}
@@ -444,55 +459,25 @@ footer ul a:hover{color:var(--gold)}
         <h3>So funktioniert der Ordner-Service</h3>
         <p>Vom ersten Ordner bis zum Kundenportal – in sechs klaren Schritten.</p>
       </div>
-      <div class="story-track">
-        <article class="story-card">
-          <img src="assets/ordner-01-chaos.jpg" alt="Ungeordnete Versicherungsunterlagen" loading="lazy" width="1600" height="900">
-          <div class="body">
-            <div class="step"><b>1</b> Ausgangslage</div>
-            <h4>Der Ordner-Chaos</h4>
-            <p>Policen, Nachträge und Rechnungen – oft über Jahre verteilt und schwer zu überblicken.</p>
-          </div>
-        </article>
-        <article class="story-card">
-          <img src="assets/ordner-02-uebergabe.jpg" alt="Übergabe der Unterlagen an den Makler" loading="lazy" width="1600" height="900">
-          <div class="body">
-            <div class="step"><b>2</b> Übergabe</div>
-            <h4>Sie geben ab – wir übernehmen</h4>
-            <p>Persönlich in Rockenhausen oder per Absprache. Einmal abgeben reicht.</p>
-          </div>
-        </article>
-        <article class="story-card">
-          <img src="assets/ordner-03-pruefen.jpg" alt="Prüfung der Versicherungsverträge" loading="lazy" width="1600" height="900">
-          <div class="body">
-            <div class="step"><b>3</b> Prüfung</div>
-            <h4>Verträge unter die Lupe</h4>
-            <p>Wir prüfen Ihren Bestand auf Sinn, Lücken und bessere Alternativen am Markt.</p>
-          </div>
-        </article>
-        <article class="story-card">
-          <img src="assets/ordner-04-ordnen.jpg" alt="Sauber sortierte Versicherungsordner" loading="lazy" width="1600" height="900">
-          <div class="body">
-            <div class="step"><b>4</b> Ordnung</div>
-            <h4>Alles an seinem Platz</h4>
-            <p>Strukturierte Ordner statt Zettelwirtschaft – für Sie und für uns als Makler.</p>
-          </div>
-        </article>
-        <article class="story-card">
-          <img src="assets/ordner-05-digital.jpg" alt="Digitalisierung der Versicherungsdokumente" loading="lazy" width="1600" height="900">
-          <div class="body">
-            <div class="step"><b>5</b> Digitalisierung</div>
-            <h4>Papier wird digital</h4>
-            <p>Ihre Unterlagen werden erfasst und sicher abgelegt – kein Suchen mehr in Stapeln.</p>
-          </div>
-        </article>
-        <article class="story-card">
-          <img src="assets/ordner-06-portal.jpg" alt="Kundenportal mit Verträgen und Dokumenten" loading="lazy" width="1600" height="900">
-          <div class="body">
-            <div class="step"><b>6</b> Kundenportal</div>
-            <h4>Immer alles im Blick</h4>
-            <p>Verträge und Dokumente in Ihrem persönlichen Kundenportal – auch unterwegs.</p>
-          </div>
-        </article>
+      <div class="slider" id="story-slider" aria-roledescription="Karussell">
+        <div class="slider-stage">
+          <button type="button" class="slider-btn prev" id="story-prev" aria-label="Vorheriger Schritt">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <img id="story-img" src="assets/ordner-01-chaos.jpg" alt="Ungeordnete Versicherungsunterlagen" width="1600" height="900">
+          <button type="button" class="slider-btn next" id="story-next" aria-label="Nächster Schritt">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+        <div class="slider-body">
+          <div class="slider-step"><b id="story-num">1</b> <span id="story-label">Ausgangslage</span></div>
+          <h4 id="story-title">Der Ordner-Chaos</h4>
+          <p id="story-text">Policen, Nachträge und Rechnungen – oft über Jahre verteilt und schwer zu überblicken.</p>
+        </div>
+        <div class="slider-nav">
+          <div class="slider-dots" id="story-dots" role="tablist" aria-label="Schritte"></div>
+          <div class="slider-count"><span id="story-pos">1</span> / 6</div>
+        </div>
       </div>
     </div>
   </div>
@@ -627,8 +612,51 @@ const co=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){con
 document.querySelectorAll('[data-count]').forEach(c=>co.observe(c));
 const range=document.getElementById('range'),afterImg=document.getElementById('afterImg'),handle=document.getElementById('handle'),knob=document.getElementById('knob');
 function setPos(v){afterImg.style.clipPath='inset(0 0 0 '+v+'%)';handle.style.left=v+'%';knob.style.left=v+'%'}
-range.addEventListener('input',e=>setPos(e.target.value));
-setPos(50);
+if(range){range.addEventListener('input',e=>setPos(e.target.value));setPos(50)}
+const storySlides=[
+  {src:'assets/ordner-01-chaos.jpg',alt:'Ungeordnete Versicherungsunterlagen',label:'Ausgangslage',title:'Der Ordner-Chaos',text:'Policen, Nachträge und Rechnungen – oft über Jahre verteilt und schwer zu überblicken.'},
+  {src:'assets/ordner-02-uebergabe.jpg',alt:'Übergabe der Unterlagen an den Makler',label:'Übergabe',title:'Sie geben ab – wir übernehmen',text:'Persönlich in Rockenhausen oder per Absprache. Einmal abgeben reicht.'},
+  {src:'assets/ordner-03-pruefen.jpg',alt:'Prüfung der Versicherungsverträge',label:'Prüfung',title:'Verträge unter die Lupe',text:'Wir prüfen Ihren Bestand auf Sinn, Lücken und bessere Alternativen am Markt.'},
+  {src:'assets/ordner-04-ordnen.jpg',alt:'Sauber sortierte Versicherungsordner',label:'Ordnung',title:'Alles an seinem Platz',text:'Strukturierte Ordner statt Zettelwirtschaft – für Sie und für uns als Makler.'},
+  {src:'assets/ordner-05-digital.jpg',alt:'Digitalisierung der Versicherungsdokumente',label:'Digitalisierung',title:'Papier wird digital',text:'Ihre Unterlagen werden erfasst und sicher abgelegt – kein Suchen mehr in Stapeln.'},
+  {src:'assets/ordner-06-portal.jpg',alt:'Kundenportal mit Verträgen und Dokumenten',label:'Kundenportal',title:'Immer alles im Blick',text:'Verträge und Dokumente in Ihrem persönlichen Kundenportal – auch unterwegs.'}
+];
+(function(){
+  const root=document.getElementById('story-slider');
+  if(!root)return;
+  const img=document.getElementById('story-img');
+  const num=document.getElementById('story-num');
+  const label=document.getElementById('story-label');
+  const title=document.getElementById('story-title');
+  const text=document.getElementById('story-text');
+  const pos=document.getElementById('story-pos');
+  const dots=document.getElementById('story-dots');
+  let i=0;
+  storySlides.forEach((_,idx)=>{
+    const b=document.createElement('button');
+    b.type='button';
+    b.setAttribute('aria-label','Schritt '+(idx+1));
+    b.addEventListener('click',()=>go(idx));
+    dots.appendChild(b);
+  });
+  function go(n){
+    i=(n+storySlides.length)%storySlides.length;
+    const s=storySlides[i];
+    img.src=s.src;img.alt=s.alt;
+    num.textContent=String(i+1);
+    label.textContent=s.label;
+    title.textContent=s.title;
+    text.textContent=s.text;
+    pos.textContent=String(i+1);
+    [...dots.children].forEach((d,di)=>d.setAttribute('aria-current',di===i?'true':'false'));
+  }
+  document.getElementById('story-prev').addEventListener('click',()=>go(i-1));
+  document.getElementById('story-next').addEventListener('click',()=>go(i+1));
+  let tx=0;
+  root.addEventListener('touchstart',e=>{tx=e.changedTouches[0].clientX},{passive:true});
+  root.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>40)go(i+(dx<0?1:-1))},{passive:true});
+  go(0);
+})();
 </script>
 </body>
 </html>
