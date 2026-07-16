@@ -65,7 +65,7 @@ footer p{font-size:14px;color:var(--muted)}
 @media(max-width:640px){
   .container{padding:0 18px}
   .nav{height:72px;gap:8px}
-  .logo img{height:38px;max-width:min(168px,48vw)}
+  .logo img{height:46px;max-width:min(200px,56vw)}
   .back-home{font-size:13px;padding:8px 12px;white-space:nowrap}
   .nav-actions{gap:8px}
   .theme-toggle{width:40px;height:40px}
