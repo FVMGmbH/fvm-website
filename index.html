@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FVM GmbH – Ihr Versicherungsmakler in Rockenhausen</title>
+<meta name="description" content="FVM GmbH – Ihr unabhängiger Versicherungsmakler in Rockenhausen. Persönliche Beratung, Ordner-Service &amp; digitale Vertragsverwaltung.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root, [data-theme="dark"]{
+  --bg:#0a1a2f; --ink:#eef3f9; --soft:#aebfd0; --muted:#7387a0; --line:rgba(255,255,255,.08);
+  --teal:#33b7ac; --teal2:#4fd6c9; --gold:#cba14e;
+  --card-grad:linear-gradient(160deg,rgba(255,255,255,.045),rgba(255,255,255,.014));
+  --field-bg:rgba(6,16,30,.55);
+  --page-bg:radial-gradient(85% 55% at 82% -8%,#153356 0%,transparent 58%),radial-gradient(65% 48% at -5% 32%,#0d2743 0%,transparent 58%),radial-gradient(75% 55% at 62% 108%,#12314f 0%,transparent 58%),linear-gradient(180deg,#0a1a2f 0%,#0b1d34 42%,#081627 100%);
+  --header-bg:rgba(10,26,47,.72); --footer-bg:rgba(5,13,24,.65);
+  --grid-op:.022; --hair:rgba(203,161,78,.55);
+}
+[data-theme="light"]{
+  --bg:#f0f4f9; --ink:#132436; --soft:#42566b; --muted:#6d8096; --line:rgba(19,36,54,.10);
+  --teal:#0f8d80; --teal2:#0f8d80; --gold:#a97f2a;
+  --card-grad:linear-gradient(160deg,#ffffff,#f5f9fd);
+  --field-bg:#ffffff;
+  --page-bg:radial-gradient(85% 55% at 82% -8%,#dfebf7 0%,transparent 58%),radial-gradient(65% 48% at -5% 32%,#e8f1f9 0%,transparent 58%),radial-gradient(75% 55% at 62% 108%,#dfeaf6 0%,transparent 58%),linear-gradient(180deg,#f0f4f9 0%,#f6f9fc 42%,#eef3f8 100%);
+  --header-bg:rgba(240,244,249,.82); --footer-bg:rgba(226,235,244,.72);
+  --grid-op:.045; --hair:rgba(169,127,42,.5);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Sora',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.75;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .5s,color .5s;font-weight:400}
+h1,h2,h3,h4{font-family:'Sora',sans-serif;line-height:1.14;color:var(--ink);letter-spacing:-1.2px;font-weight:600}
+[data-theme="dark"] h1,[data-theme="dark"] h2,[data-theme="dark"] h3,[data-theme="dark"] h4{color:#fff}
+a{text-decoration:none;color:inherit}
+.container{max-width:1180px;margin:0 auto;padding:0 28px}
+.btn{position:relative;display:inline-flex;align-items:center;gap:9px;padding:15px 32px;border-radius:12px;font-weight:600;font-size:15px;letter-spacing:-.2px;transition:.35s cubic-bezier(.2,.8,.2,1);cursor:pointer;border:none;overflow:hidden}
+.btn-primary{background:linear-gradient(120deg,#2aa79b,#2f6fb0);color:#fff;box-shadow:0 14px 36px -12px rgba(42,167,155,.6)}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 22px 46px -12px rgba(42,167,155,.75)}
+.btn-primary::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.35),transparent);transform:translateX(-120%);transition:.6s}
+.btn-primary:hover::after{transform:translateX(120%)}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+[data-theme="dark"] .btn-ghost{color:#fff}
+.btn-ghost:hover{border-color:var(--gold);transform:translateY(-3px)}
+.reveal{opacity:0;transform:translateY(30px);transition:1s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+
+.page-bg{position:fixed;inset:0;z-index:-2;background:var(--page-bg);transition:background .5s}
+.page-grid{position:fixed;inset:0;z-index:-1;background-image:linear-gradient(rgba(120,140,160,var(--grid-op)) 1px,transparent 1px),linear-gradient(90deg,rgba(120,140,160,var(--grid-op)) 1px,transparent 1px);background-size:74px 74px;mask-image:radial-gradient(circle at 50% 25%,#000,transparent 88%);pointer-events:none}
+
+/* golden hairline accent */
+.eyebrow{display:inline-flex;align-items:center;gap:11px;color:var(--gold);font-weight:600;font-size:12px;letter-spacing:3px;text-transform:uppercase;margin-bottom:18px}
+.eyebrow::before{content:"";width:32px;height:1px;background:var(--hair)}
+
+/* HEADER */
+header{position:fixed;top:0;left:0;right:0;z-index:200;transition:.4s}
+header.scrolled{background:var(--header-bg);backdrop-filter:blur(20px) saturate(160%);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:84px;gap:20px}
+.logo{display:flex;align-items:center;gap:13px;font-weight:700;font-size:21px;letter-spacing:-.5px;color:var(--ink)}
+[data-theme="dark"] .logo{color:#fff}
+.logo .mark{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#2aa79b,#2f6fb0);color:#fff;display:grid;place-items:center;font-weight:700;font-size:15px;letter-spacing:-.5px;box-shadow:0 8px 20px -6px rgba(42,167,155,.6)}
+.navlinks{display:flex;gap:38px;list-style:none;font-weight:500;font-size:15px;margin-left:auto;letter-spacing:-.2px}
+.navlinks a{color:var(--soft);transition:.25s;position:relative}
+.navlinks a::after{content:"";position:absolute;left:0;bottom:-7px;width:0;height:1.5px;background:var(--gold);transition:.3s}
+.navlinks a:hover::after{width:100%}
+.navlinks a:hover{color:var(--ink)}
+[data-theme="dark"] .navlinks a:hover{color:#fff}
+.nav-actions{display:flex;align-items:center;gap:13px}
+.theme-toggle{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:transparent;color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:.3s}
+[data-theme="dark"] .theme-toggle{color:#fff}
+.theme-toggle:hover{border-color:var(--gold);color:var(--gold);transform:rotate(15deg)}
+.theme-toggle svg{width:20px;height:20px}
+.theme-toggle .sun{display:none}
+[data-theme="light"] .theme-toggle .sun{display:block}
+[data-theme="light"] .theme-toggle .moon{display:none}
+.burger{display:none;font-size:26px;background:none;border:none;cursor:pointer;color:var(--ink)}
+[data-theme="dark"] .burger{color:#fff}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding:130px 0 100px}
+.orb{position:absolute;border-radius:50%;filter:blur(70px);opacity:.42;animation:float 16s ease-in-out infinite;z-index:0}
+[data-theme="light"] .orb{opacity:.25}
+.orb.a{width:540px;height:540px;background:radial-gradient(circle,#2aa79b,transparent 70%);top:-140px;right:-90px}
+.orb.b{width:460px;height:460px;background:radial-gradient(circle,#2f6fb0,transparent 70%);bottom:-160px;left:-110px;animation-delay:-6s}
+.orb.c{width:300px;height:300px;background:radial-gradient(circle,#cba14e,transparent 70%);top:46%;left:48%;opacity:.16;animation-delay:-10s}
+@keyframes float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(34px,-32px) scale(1.07)}}
+.hero .container{position:relative;z-index:3;display:grid;grid-template-columns:1.15fr .85fr;gap:60px;align-items:center;width:100%}
+.badge{display:inline-flex;align-items:center;gap:9px;background:transparent;border:1px solid var(--line);padding:9px 18px;border-radius:50px;font-size:12.5px;font-weight:500;letter-spacing:.3px;margin-bottom:28px;color:var(--soft)}
+.badge .dot{width:7px;height:7px;background:var(--gold);border-radius:50%;animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(203,161,78,.5)}70%{box-shadow:0 0 0 9px rgba(203,161,78,0)}100%{box-shadow:0 0 0 0 rgba(203,161,78,0)}}
+.hero h1{font-size:clamp(40px,5.4vw,68px);font-weight:600;margin-bottom:26px;letter-spacing:-2px}
+.hero h1 em{font-style:normal;color:var(--teal2)}
+[data-theme="light"] .hero h1 em{color:var(--teal)}
+.hero p{font-size:19px;color:var(--soft);max-width:540px;margin-bottom:40px;font-weight:400}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+.hero-stats{display:flex;gap:48px;margin-top:56px;padding-top:36px;border-top:1px solid var(--line)}
+.hero-stats .num{font-size:32px;font-weight:600;color:var(--ink);letter-spacing:-1px}
+[data-theme="dark"] .hero-stats .num{color:#fff}
+.hero-stats .lbl{font-size:13px;color:var(--muted);font-weight:400;margin-top:2px}
+.glass-card{background:var(--card-grad);border:1px solid var(--line);backdrop-filter:blur(22px);border-radius:22px;padding:34px;box-shadow:0 34px 80px -30px rgba(0,0,0,.55)}
+.glass-card h3{font-size:19px;margin-bottom:5px;font-weight:600;letter-spacing:-.5px}
+.glass-card .sub{font-size:13px;color:var(--muted);margin-bottom:26px;font-weight:400}
+.gc-row{display:flex;align-items:center;gap:15px;padding:16px 0;border-top:1px solid var(--line);transition:.25s}
+.gc-row:hover{padding-left:4px}
+.gc-row .ic{width:44px;height:44px;border-radius:12px;background:rgba(51,183,172,.12);color:var(--teal2);display:grid;place-items:center;flex-shrink:0;border:1px solid rgba(51,183,172,.18)}
+.gc-row .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;font-weight:500}
+.gc-row .v{font-weight:600;font-size:15px;color:var(--ink);letter-spacing:-.3px}
+[data-theme="dark"] .gc-row .v{color:#fff}
+.gc-row svg{width:19px;height:19px}
+
+section.block{padding:120px 0;position:relative}
+.head-center{text-align:center;max-width:660px;margin:0 auto 68px}
+.head-center .eyebrow{justify-content:center}
+.head-center h2{font-size:clamp(32px,4vw,48px);font-weight:600;margin-bottom:20px;letter-spacing:-1.5px}
+.head-center p{color:var(--soft);font-size:18px;font-weight:400}
+
+/* ABOUT */
+.about{display:grid;grid-template-columns:.95fr 1.05fr;gap:70px;align-items:center}
+.about-visual{position:relative;border-radius:26px;min-height:480px;padding:38px;display:flex;flex-direction:column;justify-content:center;gap:6px;background:
+  radial-gradient(120% 90% at 12% 8%,rgba(51,183,172,.28),transparent 52%),
+  radial-gradient(110% 90% at 92% 92%,rgba(47,111,176,.32),transparent 52%),
+  linear-gradient(155deg,#0e2f45 0%,#0b2138 50%,#08182c 100%);
+  overflow:hidden;box-shadow:0 40px 90px -34px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)}
+.about-visual .glow{position:absolute;width:55%;height:55%;top:-10%;right:-10%;background:radial-gradient(circle,rgba(51,183,172,.28),transparent 70%);filter:blur(50px);pointer-events:none;animation:panelglow 10s ease-in-out infinite}
+@keyframes panelglow{0%,100%{transform:translate(0,0) scale(1);opacity:.8}50%{transform:translate(-16px,18px) scale(1.1);opacity:1}}
+.about-visual .watermark{position:absolute;right:26px;bottom:14px;font-size:120px;font-weight:700;letter-spacing:-6px;line-height:1;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.01));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;pointer-events:none}
+.panel-head{position:relative;z-index:2;margin-bottom:18px}
+.panel-head .kpi{display:flex;align-items:baseline;gap:8px}
+.panel-head .kpi b{font-size:46px;font-weight:700;color:#fff;letter-spacing:-2px;line-height:1}
+.panel-head .kpi span{font-size:15px;color:var(--gold);font-weight:600}
+.panel-head p{color:var(--soft);font-size:14px;margin-top:6px;font-weight:400}
+.trust-item{position:relative;z-index:2;display:flex;align-items:center;gap:16px;padding:16px 4px;border-top:1px solid rgba(255,255,255,.08);transition:.35s cubic-bezier(.2,.8,.2,1)}
+.trust-item:hover{padding-left:12px}
+.trust-item .ic{width:46px;height:46px;border-radius:13px;background:linear-gradient(150deg,rgba(255,255,255,.12),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.14);display:grid;place-items:center;color:var(--teal2);flex-shrink:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.18);transition:.35s}
+.trust-item:hover .ic{color:#fff;background:linear-gradient(135deg,#33b7ac,#2f6fb0);border-color:transparent}
+.trust-item.gold .ic{color:var(--gold)}
+.trust-item.gold:hover .ic{background:linear-gradient(135deg,#e0be74,#c19233);color:#fff}
+.trust-item .ic svg{width:22px;height:22px}
+.trust-item .tt{font-size:15.5px;font-weight:600;color:#fff;letter-spacing:-.3px}
+.trust-item .td{font-size:12.5px;color:var(--muted);font-weight:400;margin-top:1px}
+@media(max-width:900px){.about-visual{min-height:auto;padding:30px}.about-visual .watermark{font-size:90px}}
+.about h2{font-size:clamp(30px,3.4vw,44px);font-weight:600;margin-bottom:22px;letter-spacing:-1.5px}
+.about p{color:var(--soft);font-size:16px;margin-bottom:16px;font-weight:400}
+.check-list{list-style:none;margin-top:28px;display:grid;gap:16px}
+.check-list li{display:flex;gap:14px;align-items:center;font-weight:500;color:var(--ink);letter-spacing:-.2px}
+[data-theme="dark"] .check-list li{color:#fff}
+.check-list .ck{width:26px;height:26px;border-radius:8px;background:rgba(51,183,172,.14);border:1px solid rgba(51,183,172,.3);color:var(--teal2);display:grid;place-items:center;font-size:12px;flex-shrink:0}
+
+/* SERVICES */
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{position:relative;background:var(--card-grad);border:1px solid var(--line);border-radius:20px;padding:36px;transition:.45s cubic-bezier(.2,.8,.2,1);overflow:hidden;backdrop-filter:blur(4px)}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(120deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:.45s}
+.card:hover{transform:translateY(-8px);box-shadow:0 34px 80px -30px rgba(0,0,0,.55);border-color:rgba(203,161,78,.3)}
+.card:hover::before{transform:scaleX(1)}
+.card .ic{width:58px;height:58px;border-radius:15px;background:rgba(51,183,172,.1);color:var(--teal2);display:grid;place-items:center;margin-bottom:24px;transition:.45s;border:1px solid rgba(51,183,172,.18)}
+.card:hover .ic{color:var(--gold);border-color:rgba(203,161,78,.4)}
+.card .ic svg{width:27px;height:27px}
+.card h3{font-size:20px;font-weight:600;margin-bottom:12px;letter-spacing:-.5px}
+.card p{color:var(--soft);font-size:15px;font-weight:400}
+
+/* ORDNER-SERVICE */
+.svc{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.ba{position:relative;width:100%;aspect-ratio:4/3;border-radius:22px;overflow:hidden;box-shadow:0 34px 80px -30px rgba(0,0,0,.6);border:1px solid var(--line);user-select:none;touch-action:none}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.ba .after{clip-path:inset(0 0 0 50%)}
+.ba .lbl{position:absolute;top:18px;z-index:4;padding:7px 15px;border-radius:8px;font-weight:600;font-size:11px;letter-spacing:1.5px;backdrop-filter:blur(8px)}
+.ba .lbl.l{left:18px;background:rgba(15,25,40,.72);color:#fff;border:1px solid rgba(255,255,255,.15)}
+.ba .lbl.r{right:18px;background:rgba(42,167,155,.85);color:#fff}
+.ba .handle{position:absolute;top:0;bottom:0;left:50%;width:2px;background:rgba(255,255,255,.9);z-index:3;box-shadow:0 0 20px rgba(0,0,0,.5);transform:translateX(-50%)}
+.ba .knob{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:5;width:54px;height:54px;border-radius:50%;background:rgba(255,255,255,.95);backdrop-filter:blur(4px);box-shadow:0 10px 28px rgba(0,0,0,.45);display:grid;place-items:center;cursor:ew-resize;color:#0b1d34;border:1px solid rgba(255,255,255,.6)}
+.ba .knob svg{width:22px;height:22px}
+.ba .range{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;z-index:6;margin:0}
+.svc .price-tag{display:inline-flex;align-items:baseline;gap:11px;margin:6px 0 24px}
+.svc .price-tag .amt{font-size:60px;font-weight:700;color:var(--ink);line-height:1;letter-spacing:-2px}
+[data-theme="dark"] .svc .price-tag .amt{color:#fff}
+.svc .price-tag .cur{font-size:30px;color:var(--gold);font-weight:600}
+.svc .price-tag .note{font-size:14px;color:var(--muted);font-weight:400}
+.svc h2{font-size:clamp(26px,3vw,36px);font-weight:600;margin-bottom:18px;letter-spacing:-1px}
+.svc p{color:var(--soft);font-size:16px;margin-bottom:14px;font-weight:400}
+.steps{list-style:none;display:grid;gap:15px;margin:24px 0 32px}
+.steps li{display:flex;gap:15px;align-items:flex-start;font-weight:600;color:var(--ink);letter-spacing:-.3px}
+[data-theme="dark"] .steps li{color:#fff}
+.steps .n{width:30px;height:30px;border-radius:9px;background:rgba(203,161,78,.12);border:1px solid rgba(203,161,78,.35);color:var(--gold);display:grid;place-items:center;font-weight:700;font-size:14px;flex-shrink:0}
+.steps small{display:block;color:var(--muted);font-weight:400;font-size:13px}
+.hint{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted);font-weight:400;margin-top:16px}
+.hint svg{flex-shrink:0}
+
+/* CTA */
+.cta-band{position:relative;background:linear-gradient(130deg,#123556,#0a1d34);border:1px solid var(--line);border-radius:26px;padding:76px 56px;text-align:center;overflow:hidden}
+.cta-band .orb{opacity:.36}
+.cta-band .orb.x{width:420px;height:420px;background:radial-gradient(circle,#2aa79b,transparent 70%);top:-170px;right:-70px}
+.cta-band h2{color:#fff;font-size:clamp(30px,3.6vw,44px);font-weight:600;position:relative;margin-bottom:16px;letter-spacing:-1.5px}
+.cta-band p{color:#bcccdf;position:relative;margin-bottom:34px;max-width:540px;margin-left:auto;margin-right:auto;font-size:17px;font-weight:400}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:start}
+.info-box{background:var(--card-grad);border:1px solid var(--line);border-radius:22px;padding:42px;box-shadow:0 18px 44px -22px rgba(0,0,0,.4);backdrop-filter:blur(4px)}
+.info-box h3{font-size:23px;font-weight:600;margin-bottom:28px;letter-spacing:-.5px}
+.form-field{margin-bottom:20px}
+.form-field label{display:block;font-size:13px;font-weight:500;margin-bottom:8px;color:var(--ink);letter-spacing:.2px}
+[data-theme="dark"] .form-field label{color:#fff}
+.form-field input,.form-field textarea{width:100%;padding:14px 17px;border:1px solid var(--line);border-radius:11px;font-family:inherit;font-size:15px;background:var(--field-bg);color:var(--ink);transition:.25s;font-weight:400}
+.form-field input::placeholder,.form-field textarea::placeholder{color:var(--muted)}
+.form-field input:focus,.form-field textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(203,161,78,.15)}
+.info-list{display:grid;gap:18px}
+.info-item{display:flex;gap:17px;align-items:flex-start;background:var(--card-grad);border:1px solid var(--line);padding:24px;border-radius:18px;transition:.3s}
+.info-item:hover{transform:translateX(5px);border-color:rgba(203,161,78,.3)}
+.info-item .ic{width:50px;height:50px;border-radius:14px;background:rgba(51,183,172,.1);color:var(--teal2);display:grid;place-items:center;flex-shrink:0;border:1px solid rgba(51,183,172,.18)}
+.info-item .ic svg{width:23px;height:23px}
+.info-item .k{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.2px;font-weight:500}
+.info-item .v{font-weight:600;color:var(--ink);letter-spacing:-.3px}
+[data-theme="dark"] .info-item .v{color:#fff}
+.hours .row{display:flex;justify-content:space-between;padding:5px 0;font-weight:500;color:var(--ink)}
+[data-theme="dark"] .hours .row{color:#fff}
+
+/* FOOTER */
+footer{background:var(--footer-bg);border-top:1px solid var(--line);padding:74px 0 32px;margin-top:44px;backdrop-filter:blur(6px)}
+.foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:46px;margin-bottom:48px}
+footer .logo{margin-bottom:18px}
+footer p{font-size:14px;color:var(--muted);max-width:330px;font-weight:400}
+footer h4{color:var(--ink);font-weight:600;font-size:14px;margin-bottom:20px;letter-spacing:-.2px}
+[data-theme="dark"] footer h4{color:#fff}
+footer ul{list-style:none;display:grid;gap:12px}
+footer ul a{color:var(--muted);font-size:14px;transition:.25s;font-weight:400}
+footer ul a:hover{color:var(--gold)}
+.foot-bottom{border-top:1px solid var(--line);padding-top:26px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--muted);font-weight:400}
+
+@media(max-width:900px){
+  .hero .container,.about,.contact-grid,.svc{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .navlinks{display:none}
+  .burger{display:block}
+  .navlinks.open{display:flex;position:absolute;top:84px;left:0;right:0;flex-direction:column;background:var(--header-bg);backdrop-filter:blur(16px);padding:24px 28px;gap:20px;margin-left:0}
+  .hero-stats{gap:30px;flex-wrap:wrap}
+  section.block{padding:76px 0}
+}
+</style>
+</head>
+<body>
+
+<div class="page-bg"></div>
+<div class="page-grid"></div>
+
+<header id="hdr">
+  <div class="container nav">
+    <a href="#" class="logo"><span class="mark">FVM</span> FVM GmbH</a>
+    <ul class="navlinks" id="menu">
+      <li><a href="#leistungen">Leistungen</a></li>
+      <li><a href="#service">Ordner-Service</a></li>
+      <li><a href="#ueber">Über uns</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Farbmodus wechseln">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <a href="#kontakt" class="btn btn-primary" style="padding:12px 24px">Beratung anfragen</a>
+      <button class="burger" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="orb a"></div><div class="orb b"></div><div class="orb c"></div>
+  <div class="container">
+    <div>
+      <span class="badge"><span class="dot"></span> Unabhängig &amp; 100 % auf Ihrer Seite</span>
+      <h1>Ihr Versicherungsmakler in <em>Rockenhausen</em></h1>
+      <p>Persönlich und individuell. Sie sind unser Kunde – nicht die Versicherung. Aus der ganzen Fülle des Marktes finden wir für Sie das beste Angebot.</p>
+      <div class="hero-cta">
+        <a href="#kontakt" class="btn btn-primary">Kostenlose Beratung
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="#service" class="btn btn-ghost">Ordner-Service ansehen</a>
+      </div>
+      <div class="hero-stats">
+        <div><div class="num" data-count="100" data-suffix="%">0%</div><div class="lbl">unabhängig &amp; ungebunden</div></div>
+        <div><div class="num">Marktweit</div><div class="lbl">bester Tarif für Sie</div></div>
+        <div><div class="num">Persönlich</div><div class="lbl">vor Ort in der Region</div></div>
+      </div>
+    </div>
+    <div class="glass-card">
+      <h3>Ihr direkter Draht zu uns</h3>
+      <div class="sub">Versicherungen · Finanzen · Baufinanzierung</div>
+      <a class="gc-row" href="mailto:kunden@fvm-makler.de"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span><span><span class="k">E-Mail</span><br><span class="v">kunden@fvm-makler.de</span></span></a>
+      <a class="gc-row" href="tel:063617744"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span><span><span class="k">Telefon</span><br><span class="v">06361 / 7744</span></span></a>
+      <a class="gc-row" href="https://wa.me/4915561849025"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.6 7.3L3 21l2.3-5.4A8.5 8.5 0 1 1 21 11.5z"/></svg></span><span><span class="k">WhatsApp</span><br><span class="v">0155 / 61849025</span></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="block" id="leistungen">
+  <div class="container">
+    <div class="head-center reveal">
+      <div class="eyebrow">Unsere Leistungen</div>
+      <h2>Rundum abgesichert – in jeder Lebenslage</h2>
+      <p>Von der Altersvorsorge bis zum Firmenschutz begleiten wir Sie mit passenden Lösungen.</p>
+    </div>
+    <div class="grid">
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c4-3 7-6 7-11a7 7 0 0 0-14 0c0 5 3 8 7 11z"/><path d="M12 11v6M9 14h6"/></svg></div><h3>Altersvorsorge</h3><p>Die gesetzliche Rente reicht selten aus. Wir sorgen dafür, dass Sie Ihren Lebensstandard auch im Alter halten.</p></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z"/></svg></div><h3>Haftpflicht, Unfall &amp; Rechtsschutz</h3><p>Schon kleine Unachtsamkeiten können große Folgen haben. Schützen Sie sich vor finanziellen Risiken.</p></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M2 21a7 7 0 0 1 14 0M18 8v6M15 11h6"/></svg></div><h3>Existenzabsicherung</h3><p>Absicherung bei Unfall und Berufsunfähigkeit, Hinterbliebenenschutz und Entlastung Ihrer Angehörigen.</p></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 5a5.5 5.5 0 0 0-7.8 0L12 6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.2 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></div><h3>Gesundheit</h3><p>Ihre Gesundheit ist Ihr wichtigstes Gut – mit privater Kranken- oder Krankenzusatzversicherung umfassend geschützt.</p></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg></div><h3>Wohnen &amp; Leben</h3><p>Sichern Sie Ihr Zuhause vor Feuer, Wasser, Sturm und Einbruch – und sich selbst im Straßenverkehr.</p></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 8.2-8.2M17 5l2 2M15 7l2 2"/></svg></div><h3>Baufinanzierung</h3><p>Ob Neubau, Kauf oder Modernisierung: Erfüllen Sie sich den Traum vom Eigenheim und sparen Sie dauerhaft Zinsen.</p></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4M9 9v.01M9 13v.01M9 17v.01"/></svg></div><h3>Firmenkunden</h3><p>Als Spezialist für gewerbliches Versicherungsgeschäft sorgen wir für die bestmögliche Absicherung Ihrer Firma.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ORDNER-SERVICE -->
+<section class="block" id="service">
+  <div class="container">
+    <div class="head-center reveal">
+      <div class="eyebrow">Neukunden-Angebot</div>
+      <h2>Vom Ordner-Chaos zur digitalen Übersicht</h2>
+      <p>Ziehen Sie am Regler und sehen Sie, was wir aus Ihren Unterlagen machen.</p>
+    </div>
+    <div class="svc">
+      <div class="ba reveal" id="ba">
+        <img class="before" src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/214ee9ca1378b5cbc2e2c93df3058cdedc7fab2e.jpg" alt="Chaotischer Schreibtisch voller Unterlagen">
+        <img class="after" id="afterImg" src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/7c9b447ea5592be7dc4e1cac6c6b86c8ca539d9a.jpg" alt="Sauber sortierte, geordnete Ordner">
+        <span class="lbl l">VORHER</span>
+        <span class="lbl r">NACHHER</span>
+        <div class="handle" id="handle"></div>
+        <div class="knob" id="knob"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/><path d="m9 6 6 6-6 6"/></svg></div>
+        <input class="range" id="range" type="range" min="0" max="100" value="50" aria-label="Vorher-Nachher-Regler">
+      </div>
+      <div class="reveal">
+        <div class="eyebrow">Pauschalangebot</div>
+        <div class="price-tag"><span class="amt">49</span><span class="cur">€</span><span class="note">einmalig · wird verrechnet*</span></div>
+        <h2>Wir bringen Ordnung in Ihre Versicherungen</h2>
+        <p>Wir prüfen Ihre bestehenden Verträge, sortieren Ihren Versicherungsordner und bringen alles auf den neuesten Stand – anschließend digitalisieren wir Ihre Verträge.</p>
+        <ul class="steps">
+          <li><span class="n">1</span><span>Bestehende Versicherungen prüfen<small>Wir checken Konditionen, Lücken und Sparpotenziale.</small></span></li>
+          <li><span class="n">2</span><span>Ordner sortieren &amp; aktualisieren<small>Aus Chaos wird eine klare, gepflegte Struktur.</small></span></li>
+          <li><span class="n">3</span><span>Verträge digitalisieren<small>Alle Unterlagen sauber erfasst und archiviert.</small></span></li>
+          <li><span class="n">4</span><span>Zugriff auf unsere Plattform<small>Ihre Verträge jederzeit &amp; überall einsehbar.</small></span></li>
+        </ul>
+        <a href="#kontakt" class="btn btn-primary">Für 49 € starten →</a>
+        <div class="hint">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          *Der Betrag wird verrechnet, sofern Sie Ihren Bestand künftig über uns pflegen lassen.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="block" id="ueber">
+  <div class="container about">
+    <div class="about-visual reveal">
+      <div class="glow"></div>
+      <div class="watermark">FVM</div>
+      <div class="panel-head">
+        <div class="kpi"><b>100%</b><span>unabhängig</span></div>
+        <p>Ihr Makler – ausschließlich auf Ihrer Seite.</p>
+      </div>
+      <div class="trust-item gold"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg></span><span><span class="tt">Unabhängig &amp; ungebunden</span><span class="td">Der komplette Markt statt einer Gesellschaft</span></span></div>
+      <div class="trust-item"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span><span><span class="tt">Maßgeschneiderte Lösungen</span><span class="td">Individuell statt Produkte von der Stange</span></span></div>
+      <div class="trust-item"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span><span><span class="tt">Persönlich vor Ort</span><span class="td">Fester Ansprechpartner in Rockenhausen</span></span></div>
+      <div class="trust-item"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span><span><span class="tt">Jederzeit erreichbar</span><span class="td">Digitale Vertragsübersicht rund um die Uhr</span></span></div>
+    </div>
+    <div class="reveal">
+      <div class="eyebrow">Persönlich &amp; individuell</div>
+      <h2>Wir arbeiten für Sie – nicht für die Versicherung</h2>
+      <p>Als unabhängiger Versicherungsmakler sind wir an keinen einzelnen Versicherer gebunden. Wir vergleichen den kompletten Markt und finden das Angebot, das wirklich zu Ihnen passt.</p>
+      <p>Profitieren Sie von maßgeschneiderter Beratung und langjähriger Erfahrung – klar, ehrlich und immer in Ihrem Interesse.</p>
+      <ul class="check-list">
+        <li><span class="ck">✓</span> Unabhängige Beratung aus der gesamten Marktvielfalt</li>
+        <li><span class="ck">✓</span> Maßgeschneiderte Lösungen statt Standardprodukte</li>
+        <li><span class="ck">✓</span> Persönlicher Ansprechpartner direkt in Rockenhausen</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="block" style="padding-top:0">
+  <div class="container">
+    <div class="cta-band reveal">
+      <div class="orb x"></div>
+      <h2>Wir rufen Sie gerne zurück</h2>
+      <p>Sie haben Fragen? Gerne stehen wir Ihnen persönlich Rede und Antwort – schnell, ehrlich und unkompliziert.</p>
+      <a href="#kontakt" class="btn btn-primary">Jetzt Rückruf anfragen →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="block" id="kontakt" style="padding-top:0">
+  <div class="container">
+    <div class="head-center reveal">
+      <div class="eyebrow">Persönliche Beratung</div>
+      <h2>So finden Sie uns</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="info-box reveal">
+        <h3>Kontakt aufnehmen</h3>
+        <form onsubmit="alert('Vielen Dank für Ihre Nachricht! (Demo-Formular)');return false;">
+          <div class="form-field"><label>Name *</label><input required placeholder="Ihr Name"></div>
+          <div class="form-field"><label>E-Mail *</label><input required type="email" placeholder="ihre@email.de"></div>
+          <div class="form-field"><label>Telefon</label><input placeholder="Für einen Rückruf"></div>
+          <div class="form-field"><label>Ihre Nachricht *</label><textarea required rows="4" placeholder="Wie können wir Ihnen helfen?"></textarea></div>
+          <button class="btn btn-primary" style="width:100%;justify-content:center">Nachricht senden</button>
+        </form>
+      </div>
+      <div class="info-list reveal">
+        <div class="info-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="k">Adresse</div><div class="v">FVM GmbH · Am Pfingstborn 21<br>67806 Rockenhausen</div></div></div>
+        <div class="info-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></div><div><div class="k">E-Mail</div><a class="v" href="mailto:kunden@fvm-makler.de">kunden@fvm-makler.de</a></div></div>
+        <div class="info-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></div><div><div class="k">Telefon</div><a class="v" href="tel:063617744">06361 / 7744</a></div></div>
+        <div class="info-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div><div style="flex:1"><div class="k">Öffnungszeiten</div><div class="hours"><div class="row"><span>Montag – Freitag</span><span>09:00 – 13:00 Uhr</span></div><div class="row" style="color:var(--muted);font-weight:400;font-size:13px"><span>Weitere Termine nach Vereinbarung</span></div></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <div class="logo"><span class="mark">FVM</span> FVM GmbH</div>
+        <p>Ihr unabhängiger Versicherungsmakler in Rockenhausen – persönlich, individuell und immer auf Ihrer Seite.</p>
+      </div>
+      <div><h4>Leistungen</h4><ul>
+        <li><a href="#leistungen">Altersvorsorge</a></li>
+        <li><a href="#service">Ordner-Service (49 €)</a></li>
+        <li><a href="#leistungen">Baufinanzierung</a></li>
+        <li><a href="#leistungen">Firmenkunden</a></li>
+      </ul></div>
+      <div><h4>Kontakt</h4><ul>
+        <li><a href="mailto:kunden@fvm-makler.de">kunden@fvm-makler.de</a></li>
+        <li><a href="tel:063617744">06361 / 7744</a></li>
+        <li><a href="https://wa.me/4915561849025">WhatsApp: 0155 / 61849025</a></li>
+        <li>Am Pfingstborn 21, 67806 Rockenhausen</li>
+      </ul></div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 FVM GmbH · Alle Rechte vorbehalten</span>
+      <span><a href="#">Impressum</a> &nbsp;·&nbsp; <a href="#">Datenschutz</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function toggleTheme(){
+  const h=document.documentElement;
+  const next=h.getAttribute('data-theme')==='dark'?'light':'dark';
+  h.setAttribute('data-theme',next);
+  try{localStorage.setItem('fvm-theme',next)}catch(e){}
+}
+try{const t=localStorage.getItem('fvm-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}
+const hdr=document.getElementById('hdr');
+window.addEventListener('scroll',()=>{hdr.classList.toggle('scrolled',window.scrollY>30)});
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%3*90)+'ms';io.observe(el)});
+const co=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){const el=e.target,t=+el.dataset.count,sf=el.dataset.suffix||'';let n=0;const step=()=>{n+=t/40;if(n<t){el.textContent=Math.round(n)+sf;requestAnimationFrame(step)}else el.textContent=t+sf};step();co.unobserve(el)}})},{threshold:.5});
+document.querySelectorAll('[data-count]').forEach(c=>co.observe(c));
+const range=document.getElementById('range'),afterImg=document.getElementById('afterImg'),handle=document.getElementById('handle'),knob=document.getElementById('knob');
+function setPos(v){afterImg.style.clipPath='inset(0 0 0 '+v+'%)';handle.style.left=v+'%';knob.style.left=v+'%'}
+range.addEventListener('input',e=>setPos(e.target.value));
+setPos(50);
+</script>
+</body>
+</html>
