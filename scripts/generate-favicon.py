@@ -1,81 +1,73 @@
-"""Generate square F-mark favicon assets for browser tabs."""
-from PIL import Image, ImageDraw, ImageFont
+"""Generate ultra-simple high-contrast favicons (readable at 16px)."""
+from PIL import Image, ImageDraw
 import os
 
 out_dir = os.path.join(os.path.dirname(__file__), "..", "assets")
 os.makedirs(out_dir, exist_ok=True)
 
-NAVY = (10, 26, 47, 255)  # #0a1a2f
-BLUE = (65, 79, 162, 255)  # logo blue #414fa2
+BLUE = (65, 79, 162, 255)
 WHITE = (255, 255, 255, 255)
 
 
-def make_mark(size: int, radius_ratio: float = 0.22) -> Image.Image:
-    radius = int(size * radius_ratio)
+def draw_mark(size: int) -> Image.Image:
+    """Blue rounded tile + white filled triangle — crisp in address bar."""
     img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
-    draw.rounded_rectangle((0, 0, size - 1, size - 1), radius=radius, fill=NAVY)
 
-    inset = max(1, int(size * 0.08))
-    plate = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    pd = ImageDraw.Draw(plate)
-    pd.rounded_rectangle(
-        (inset, inset, size - 1 - inset, size - 1 - inset),
-        radius=max(2, radius - inset // 2),
+    pad = max(0, size // 64)
+    radius = max(3, int(size * 0.22))
+    draw.rounded_rectangle(
+        (pad, pad, size - 1 - pad, size - 1 - pad),
+        radius=radius,
         fill=BLUE,
     )
-    img = Image.alpha_composite(img, plate)
-    draw = ImageDraw.Draw(img)
 
-    font_paths = [
-        r"C:\Windows\Fonts\arialbd.ttf",
-        r"C:\Windows\Fonts\segoeuib.ttf",
-        r"C:\Windows\Fonts\calibrib.ttf",
-        r"C:\Windows\Fonts\arial.ttf",
+    # Inset triangle (pointing up), generous margins
+    m = size * 0.22
+    top = m
+    bottom = size - m * 0.95
+    left = m * 1.05
+    right = size - m * 1.05
+    cx = size / 2
+    triangle = [
+        (cx, top),
+        (right, bottom),
+        (left, bottom),
     ]
-    font = None
-    for fp in font_paths:
-        if os.path.exists(fp):
-            font = ImageFont.truetype(fp, int(size * 0.58))
-            break
-    if font is None:
-        font = ImageFont.load_default()
-
-    text = "F"
-    bbox = draw.textbbox((0, 0), text, font=font)
-    tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
-    x = (size - tw) / 2 - bbox[0] + size * 0.02
-    y = (size - th) / 2 - bbox[1] - size * 0.03
-    draw.text((x, y), text, font=font, fill=WHITE)
+    draw.polygon(triangle, fill=WHITE)
     return img
 
 
-fav32 = make_mark(32)
-fav32.save(os.path.join(out_dir, "favicon.png"), "PNG", optimize=True)
+def save_all():
+    fav32 = draw_mark(32)
+    fav32.save(os.path.join(out_dir, "favicon.png"), "PNG", optimize=True)
 
-fav64 = make_mark(64)
-fav64.save(os.path.join(out_dir, "favicon-64.png"), "PNG", optimize=True)
+    fav64 = draw_mark(64)
+    fav64.save(os.path.join(out_dir, "favicon-64.png"), "PNG", optimize=True)
 
-# ICO with multiple sizes (Pillow embeds from the largest)
-fav64.save(
-    os.path.join(out_dir, "favicon.ico"),
-    format="ICO",
-    sizes=[(16, 16), (32, 32), (48, 48)],
-)
+    fav128 = draw_mark(128)
+    fav128.save(os.path.join(out_dir, "favicon-128.png"), "PNG", optimize=True)
 
-apple = make_mark(180, radius_ratio=0.2)
-apple.save(os.path.join(out_dir, "apple-touch-icon.png"), "PNG", optimize=True)
+    fav128.save(
+        os.path.join(out_dir, "favicon.ico"),
+        format="ICO",
+        sizes=[(16, 16), (32, 32), (48, 48), (64, 64)],
+    )
 
-pwa = make_mark(192, radius_ratio=0.2)
-pwa.save(os.path.join(out_dir, "icon-192.png"), "PNG", optimize=True)
+    draw_mark(180).save(os.path.join(out_dir, "apple-touch-icon.png"), "PNG", optimize=True)
+    draw_mark(192).save(os.path.join(out_dir, "icon-192.png"), "PNG", optimize=True)
 
-print("OK: favicon.png, favicon.ico, apple-touch-icon.png, icon-192.png, favicon-64.png")
-for name in [
-    "favicon.png",
-    "favicon.ico",
-    "apple-touch-icon.png",
-    "icon-192.png",
-    "favicon-64.png",
-]:
-    p = os.path.join(out_dir, name)
-    print(f"  {name}: {os.path.getsize(p)} bytes")
+    for junk in ("_icon-crop-debug.png", "_left100.png", "_preview-16.png", "_preview-32.png"):
+        p = os.path.join(out_dir, junk)
+        if os.path.exists(p):
+            os.remove(p)
+
+    # 16px preview for QA
+    draw_mark(128).resize((16, 16), Image.Resampling.LANCZOS).save(
+        os.path.join(out_dir, "_preview-16.png")
+    )
+    print("OK simple triangle favicons")
+
+
+if __name__ == "__main__":
+    save_all()
