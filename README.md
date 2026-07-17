@@ -5,6 +5,14 @@
 ## Struktur
 
 - `index.html` – Single-Page-Website (statisch)
+- `assets/ordner-service.mp4` – Ordner-Service Promo (40s, 16:9, Untertitel + Off-Stimme)
+- `scripts/build-ordner-video.py` – Video aus Story-Stills neu rendern
+- `scripts/add-ordner-voiceover.py` – Deutsche Off-Stimme (edge-tts) aufs Video legen
+
+```bash
+python scripts/build-ordner-video.py
+python scripts/add-ordner-voiceover.py
+```
 
 ## Cloudflare Pages
 
