@@ -131,6 +131,30 @@ footer .logo img{height:44px}
 .hero-stats .num{font-size:32px;font-weight:600;color:var(--ink);letter-spacing:-1px}
 [data-theme="dark"] .hero-stats .num{color:#fff}
 .hero-stats .lbl{font-size:13px;color:var(--muted);font-weight:400;margin-top:2px}
+.g-rating{display:inline-flex;align-items:center;gap:10px;margin-top:28px;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card-grad);text-decoration:none;color:inherit;transition:.25s;max-width:100%}
+.g-rating:hover{border-color:rgba(203,161,78,.45);transform:translateY(-2px)}
+.g-rating .stars{color:#f4b400;letter-spacing:1px;font-size:15px;line-height:1}
+.g-rating .score{font-weight:700;font-size:16px;color:var(--ink);letter-spacing:-.3px}
+[data-theme="dark"] .g-rating .score{color:#fff}
+.g-rating .meta{font-size:13px;color:var(--muted);font-weight:400}
+.g-rating .meta b{color:var(--soft);font-weight:500}
+.reviews{max-width:1000px;margin:0 auto}
+.reviews-head{text-align:center;margin-bottom:36px}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.review-card{background:var(--card-grad);border:1px solid var(--line);border-radius:18px;padding:24px 22px;display:flex;flex-direction:column;gap:12px;transition:.3s}
+.review-card:hover{transform:translateY(-3px);border-color:rgba(203,161,78,.35)}
+[data-theme="light"] .review-card{box-shadow:0 12px 32px -22px rgba(19,36,54,.16)}
+.review-card .stars{color:#f4b400;font-size:14px;letter-spacing:1px}
+.review-card blockquote{margin:0;font-size:14.5px;line-height:1.65;color:var(--soft);font-weight:400;flex:1}
+.review-card .src{font-size:12px;color:var(--muted);font-weight:500}
+.reviews-cta{text-align:center;margin-top:28px}
+.reviews-cta a{font-size:14px;font-weight:500;color:var(--teal2);text-decoration:underline;text-underline-offset:3px}
+[data-theme="light"] .reviews-cta a{color:var(--teal)}
+@media(max-width:900px){.reviews-grid{grid-template-columns:1fr;gap:14px}}
+@media(max-width:640px){
+  .g-rating{margin-top:22px;width:100%;justify-content:flex-start}
+  .review-card{padding:20px 18px}
+}
 .glass-card{background:var(--card-grad);border:1px solid var(--line);backdrop-filter:blur(22px);border-radius:22px;padding:34px;box-shadow:0 34px 80px -30px rgba(0,0,0,.55)}
 [data-theme="light"] .glass-card{box-shadow:0 22px 50px -28px rgba(19,36,54,.18),0 1px 0 rgba(255,255,255,.8) inset;border-color:rgba(19,36,54,.08)}
 [data-theme="light"] section.block:nth-of-type(odd){background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.15))}
@@ -443,10 +467,15 @@ footer ul a:hover{color:var(--gold)}
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         <a href="#service" class="btn btn-ghost">Ordner-Service ansehen</a>
       </div>
+      <a class="g-rating" href="https://g.page/r/CeHEaYprJcRAEBM/review" target="_blank" rel="noopener noreferrer" aria-label="Google-Bewertungen der FVM GmbH – 5,0 von 5 bei 10 Rezensionen">
+        <span class="stars" aria-hidden="true">★★★★★</span>
+        <span class="score">5,0</span>
+        <span class="meta"><b>10 Google-Bewertungen</b> · alle 5 Sterne</span>
+      </a>
       <div class="hero-stats">
-        <div><div class="num" data-count="100" data-suffix="%">0%</div><div class="lbl">unabhängig &amp; ungebunden</div></div>
-        <div><div class="num">Marktweit</div><div class="lbl">bester Tarif für Sie</div></div>
-        <div><div class="num">Persönlich</div><div class="lbl">vor Ort in der Region</div></div>
+        <div><div class="num">100 %</div><div class="lbl">unabhängig &amp; ungebunden</div></div>
+        <div><div class="num">Marktweit</div><div class="lbl">Vergleich statt einer Gesellschaft</div></div>
+        <div><div class="num">Persönlich</div><div class="lbl">vor Ort in Rockenhausen</div></div>
       </div>
     </div>
     <div class="glass-card">
@@ -605,6 +634,39 @@ footer ul a:hover{color:var(--gold)}
         <li><span class="ck">✓</span> Maßgeschneiderte Lösungen statt Standardprodukte</li>
         <li><span class="ck">✓</span> Persönlicher Ansprechpartner direkt in Rockenhausen</li>
       </ul>
+    </div>
+  </div>
+</section>
+
+<!-- GOOGLE REVIEWS -->
+<section class="block" id="bewertungen">
+  <div class="container">
+    <div class="reviews">
+      <div class="reviews-head reveal">
+        <div class="eyebrow">Google-Bewertungen</div>
+        <h2>Das sagen unsere Kunden</h2>
+        <p style="color:var(--soft);font-size:16px;margin-top:12px">5,0 von 5 Sternen · 10 Rezensionen · alle mit Bestnote</p>
+      </div>
+      <div class="reviews-grid">
+        <article class="review-card reveal">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <blockquote>„Freundlicher und kompetenter Versicherungsmakler, der sich bestens um einen kümmert. Man fühlt sich dort gut aufgehoben.“</blockquote>
+          <div class="src">Google-Bewertung</div>
+        </article>
+        <article class="review-card reveal">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <blockquote>„Gute Beratung. Sehr freundliche Leute. Immer wieder gerne.“</blockquote>
+          <div class="src">Google-Bewertung</div>
+        </article>
+        <article class="review-card reveal">
+          <div class="stars" aria-hidden="true">★★★★★</div>
+          <blockquote>„Würde jedem, der eine Versicherung braucht, empfehlen, sich dort zu melden.“</blockquote>
+          <div class="src">Google-Bewertung</div>
+        </article>
+      </div>
+      <div class="reviews-cta reveal">
+        <a href="https://g.page/r/CeHEaYprJcRAEBM/review" target="_blank" rel="noopener noreferrer">Auf Google bewerten →</a>
+      </div>
     </div>
   </div>
 </section>
