@@ -19,51 +19,69 @@ OUT = ASSETS / "ordner-service.mp4"
 W, H = 1920, 1080
 FPS = 30
 
-# Shot list aligned to Drehbuch (seconds)
+# Shot list — ~25s, ruhiger Ken Burns
 SHOTS = [
     {
         "src": "ordner-01-chaos.jpg",
-        "dur": 5.0,
+        "dur": 3.5,
         "zoom": "in",
         "lines": ["Versicherungsunterlagen –", "oft über Jahre verteilt."],
     },
     {
         "src": "ordner-02-uebergabe.jpg",
-        "dur": 5.0,
+        "dur": 3.5,
         "zoom": "out",
         "lines": ["Sie bringen den Ordner.", "Wir übernehmen."],
     },
     {
         "src": "ordner-03-pruefen.jpg",
-        "dur": 8.0,
+        "dur": 5.0,
         "zoom": "in",
         "lines": ["Wir prüfen Bestand, Lücken", "und bessere Alternativen."],
     },
     {
         "src": "ordner-04-ordnen.jpg",
-        "dur": 7.0,
+        "dur": 4.0,
         "zoom": "pan",
         "lines": ["Aus Chaos wird Ordnung."],
     },
     {
         "src": "ordner-06-portal.jpg",
-        "dur": 8.0,
+        "dur": 5.0,
         "zoom": "in",
         "lines": ["Alles digital in Ihrem", "persönlichen Kundenportal."],
     },
     {
         "src": "__endcard__",
-        "dur": 7.0,
+        "dur": 5.0,
         "zoom": "hold",
-        "lines": [],  # text baked into endcard
+        "lines": [],
     },
 ]
+
+# Max overscan for Ken Burns (fixed canvas → nur Crop, weniger Jitter)
+KB_BASE = 1.06
+KB_ZOOM = 1.03  # max 3 % Zoom
+KB_PAN = 0.024  # ±1.2 % Breite
 
 
 def find_ffmpeg() -> str:
     exe = shutil.which("ffmpeg")
     if exe:
         return exe
+    candidates = [
+        Path.home()
+        / "AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-8.1.2-full_build/bin/ffmpeg.exe",
+    ]
+    for c in candidates:
+        if c.exists():
+            return str(c)
+    # glob winget installs
+    winget = Path.home() / "AppData/Local/Microsoft/WinGet/Packages"
+    if winget.exists():
+        hits = list(winget.glob("**/ffmpeg.exe"))
+        if hits:
+            return str(hits[0])
     raise SystemExit("ffmpeg nicht gefunden – bitte installieren und PATH neu laden.")
 
 
@@ -173,69 +191,86 @@ def draw_subtitle(base: Image.Image, lines: list[str]) -> Image.Image:
     return Image.alpha_composite(frame.convert("RGBA"), overlay).convert("RGB")
 
 
-def ken_burns_frame(src: Image.Image, t: float, dur: float, mode: str) -> Image.Image:
-    """t in [0,1] progress. Slight zoom/pan for documentary feel."""
-    # work on oversized canvas then crop
-    scale_start, scale_end = 1.0, 1.08
+def ken_burns_frame(base: Image.Image, t: float, mode: str) -> Image.Image:
+    """Crop from a fixed oversized base — no per-frame cover-resize (weniger Wackeln)."""
+    scale_start, scale_end = 1.0, KB_ZOOM
     if mode == "out":
-        scale_start, scale_end = 1.08, 1.0
+        scale_start, scale_end = KB_ZOOM, 1.0
     elif mode == "hold":
         scale_start, scale_end = 1.0, 1.0
     elif mode == "pan":
-        scale_start, scale_end = 1.06, 1.06
+        scale_start, scale_end = KB_ZOOM, KB_ZOOM
 
     scale = scale_start + (scale_end - scale_start) * t
-    # pan left→right for pan mode
+    # Nur bei pan leicht seitlich — Zoom ohne Drift
     ox = 0.0
     if mode == "pan":
-        ox = (t - 0.5) * 0.06  # ±3% of width
-    elif mode == "in":
-        ox = t * 0.02
-    elif mode == "out":
-        ox = (1 - t) * 0.02
+        ox = (t - 0.5) * KB_PAN
 
-    bw, bh = int(W * scale) + 4, int(H * scale) + 4
-    canvas = cover_crop(src, bw, bh)
-    cx = canvas.width / 2 + ox * W
-    cy = canvas.height / 2
-    left = int(cx - W / 2)
-    top = int(cy - H / 2)
-    left = max(0, min(left, canvas.width - W))
-    top = max(0, min(top, canvas.height - H))
-    return canvas.crop((left, top, left + W, top + H))
+    # Fenster auf dem Base-Canvas: bei höherem scale kleineres Fenster (= Zoom)
+    cw = W * KB_BASE / scale
+    ch = H * KB_BASE / scale
+    cx = base.width / 2 + ox * base.width
+    cy = base.height / 2
+    left = cx - cw / 2
+    top = cy - ch / 2
+    # clamp
+    left = max(0.0, min(left, base.width - cw))
+    top = max(0.0, min(top, base.height - ch))
+
+    l = int(round(left))
+    t0 = int(round(top))
+    rw = max(W, int(round(cw)))
+    rh = max(H, int(round(ch)))
+    r = min(base.width, l + rw)
+    b = min(base.height, t0 + rh)
+    l = max(0, r - rw)
+    t0 = max(0, b - rh)
+
+    cropped = base.crop((l, t0, r, b))
+    if cropped.size != (W, H):
+        cropped = cropped.resize((W, H), Image.Resampling.LANCZOS)
+    return cropped
 
 
 def write_shot_frames(shot: dict, out_dir: Path, start_idx: int) -> int:
     if shot["src"] == "__endcard__":
         src = make_endcard()
+        base = src  # bereits 1920x1080, hold ohne Zoom-Canvas
+        use_kb = False
     else:
         path = ASSETS / shot["src"]
         if not path.exists():
             raise SystemExit(f"Fehlendes Asset: {path}")
         src = Image.open(path)
+        base = cover_crop(src, int(W * KB_BASE), int(H * KB_BASE))
+        use_kb = True
 
     n = int(round(shot["dur"] * FPS))
     for i in range(n):
         t = i / max(n - 1, 1)
-        # ease in-out
-        te = 0.5 - 0.5 * math.cos(math.pi * t)
-        frame = ken_burns_frame(src, te, shot["dur"], shot["zoom"])
-        # slight subtitle fade in first 0.4s / out last 0.35s
+        te = 0.5 - 0.5 * math.cos(math.pi * t)  # ease in-out
+        if use_kb:
+            frame = ken_burns_frame(base, te, shot["zoom"])
+        else:
+            frame = base.copy()
+
         lines = shot["lines"]
         if lines:
             fade = 1.0
-            if t < 0.08:
-                fade = t / 0.08
-            elif t > 0.92:
-                fade = (1 - t) / 0.08
+            if t < 0.1:
+                fade = t / 0.1
+            elif t > 0.9:
+                fade = (1 - t) / 0.1
             if fade > 0.05:
-                frame = draw_subtitle(frame, lines)
+                subtitled = draw_subtitle(frame, lines)
                 if fade < 0.99:
-                    # blend with non-subtitled for fade
-                    plain = ken_burns_frame(src, te, shot["dur"], shot["zoom"])
-                    frame = Image.blend(plain, frame, fade)
+                    frame = Image.blend(frame, subtitled, fade)
+                else:
+                    frame = subtitled
+
         out_path = out_dir / f"frame_{start_idx + i:06d}.jpg"
-        frame.save(out_path, "JPEG", quality=88, optimize=True)
+        frame.save(out_path, "JPEG", quality=90, optimize=True)
         if i % 30 == 0:
             print(f"  frame {start_idx + i}/{start_idx + n - 1}", flush=True)
     return n

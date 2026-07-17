@@ -23,24 +23,29 @@ VOICE = "de-DE-ConradNeural"
 RATE = "-5%"
 PITCH = "-2Hz"
 
-# Timed lines aligned to shot starts (seconds). Texts slightly tightened to fit slots.
+# Timed lines aligned to tightened ~26s cut
 LINES: list[tuple[float, str]] = [
-    (0.3, "Versicherungsunterlagen – oft über Jahre verteilt."),
-    (5.5, "Sie bringen den Ordner. Wir übernehmen."),
-    (10.5, "Wir prüfen Ihren Bestand, finden Lücken und bessere Alternativen."),
-    (18.5, "Aus Chaos wird Ordnung."),
-    (25.4, "Alles landet digital in Ihrem persönlichen Kundenportal."),
-    (33.4, "Ordner-Service: einmalig 49 Euro. Einstieg für Neukunden."),
+    (0.25, "Versicherungsunterlagen – oft über Jahre verteilt."),
+    (3.7, "Sie bringen den Ordner. Wir übernehmen."),
+    (7.2, "Wir prüfen Ihren Bestand, finden Lücken und bessere Alternativen."),
+    (12.2, "Aus Chaos wird Ordnung."),
+    (16.2, "Alles landet digital in Ihrem persönlichen Kundenportal."),
+    (21.3, "Ordner-Service: einmalig 49 Euro."),
 ]
 
-VIDEO_DUR = 40.0
+VIDEO_DUR = 26.0
 
 
 def find_ffmpeg() -> str:
     exe = shutil.which("ffmpeg")
-    if not exe:
-        raise SystemExit("ffmpeg nicht gefunden.")
-    return exe
+    if exe:
+        return exe
+    winget = Path.home() / "AppData/Local/Microsoft/WinGet/Packages"
+    if winget.exists():
+        hits = list(winget.glob("**/ffmpeg.exe"))
+        if hits:
+            return str(hits[0])
+    raise SystemExit("ffmpeg nicht gefunden.")
 
 
 async def synth_line(text: str, out_path: Path) -> None:
