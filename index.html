@@ -163,8 +163,6 @@ footer .logo img{height:44px}
 [data-theme="light"] .glass-card{box-shadow:0 22px 50px -28px rgba(19,36,54,.18),0 1px 0 rgba(255,255,255,.8) inset;border-color:rgba(19,36,54,.08)}
 [data-theme="light"] section.block:nth-of-type(odd){background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.15))}
 [data-theme="light"] section.block:nth-of-type(even){background:linear-gradient(180deg,rgba(232,242,248,.55),rgba(238,243,248,.2))}
-[data-theme="light"] .topic-pill{box-shadow:0 10px 28px -18px rgba(19,36,54,.16)}
-[data-theme="light"] .topic-pill:hover{box-shadow:0 16px 36px -20px rgba(19,36,54,.22)}
 [data-theme="light"] .info-box,[data-theme="light"] .slider{box-shadow:0 18px 44px -28px rgba(19,36,54,.16)}
 [data-theme="light"] .portal-visual{box-shadow:0 28px 60px -28px rgba(19,36,54,.28)}
 [data-theme="light"] .badge{background:rgba(255,255,255,.55);backdrop-filter:blur(8px)}
@@ -217,24 +215,19 @@ section.block{padding:120px 0;position:relative}
 [data-theme="dark"] .check-list li{color:#fff}
 .check-list .ck{width:26px;height:26px;border-radius:8px;background:rgba(51,183,172,.14);border:1px solid rgba(51,183,172,.3);color:var(--teal2);display:grid;place-items:center;font-size:12px;flex-shrink:0}
 
-/* SERVICES */
-.topics{max-width:920px;margin:0 auto}
-.topics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;list-style:none;margin:0;padding:0}
-.topic-pill{position:relative;display:block;background:var(--card-grad);border:1px solid var(--line);border-radius:16px;padding:18px 18px 16px;overflow:hidden;backdrop-filter:blur(4px);transition:.35s cubic-bezier(.2,.8,.2,1)}
-.topic-pill::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(120deg,var(--gold),transparent);transform:scaleX(0);transform-origin:left;transition:.35s}
-.topic-pill:hover{transform:translateY(-3px);border-color:rgba(203,161,78,.35);box-shadow:0 18px 40px -28px rgba(0,0,0,.45)}
-.topic-pill:hover::before{transform:scaleX(1)}
-.topic-pill strong{display:block;font-size:15px;font-weight:600;letter-spacing:-.3px;color:var(--ink);margin-bottom:4px}
-[data-theme="dark"] .topic-pill strong{color:#fff}
-.topic-pill span{display:block;font-size:12.5px;font-weight:400;color:var(--muted);line-height:1.45}
-.topics-note{text-align:center;margin-top:24px;font-size:14px;color:var(--muted);font-weight:400}
-@media(max-width:900px){.topics-grid{grid-template-columns:repeat(2,1fr);gap:12px}}
+/* SERVICES — compact chip strip */
+.block-compact{padding:64px 0}
+.topics{max-width:860px;margin:0 auto;text-align:center}
+.topics-lead{font-size:16px;color:var(--soft);font-weight:400;line-height:1.55;margin:0 0 22px}
+.topics-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;list-style:none;margin:0;padding:0}
+.topics-chips li{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card-grad);font-size:13px;font-weight:500;color:var(--ink);letter-spacing:-.2px}
+[data-theme="dark"] .topics-chips li{color:#eef3f9}
+[data-theme="light"] .topics-chips li{box-shadow:0 6px 18px -14px rgba(19,36,54,.18)}
+.topics-note{margin-top:18px;font-size:13.5px;color:var(--muted);font-weight:400}
 @media(max-width:640px){
-  .topics-grid{grid-template-columns:repeat(2,1fr);gap:10px}
-  .topic-pill{padding:14px 14px 12px;border-radius:14px}
-  .topic-pill strong{font-size:13.5px}
-  .topic-pill span{font-size:11.5px}
-  .topic-pill:hover{transform:none}
+  .block-compact{padding:48px 0}
+  .topics-chips{gap:6px}
+  .topics-chips li{padding:7px 12px;font-size:12.5px}
 }
 
 /* ORDNER-SERVICE */
@@ -434,10 +427,10 @@ footer ul a:hover{color:var(--gold)}
 
 <div class="nav-backdrop" id="nav-backdrop" aria-hidden="true"></div>
 <ul class="navlinks" id="menu">
-  <li><a href="#leistungen">Leistungen</a></li>
   <li><a href="#portal">Kundenportal</a></li>
   <li><a href="#service">Ordner-Service</a></li>
   <li><a href="#ueber">Über uns</a></li>
+  <li><a href="#bewertungen">Bewertungen</a></li>
   <li><a href="#kontakt">Kontakt</a></li>
   <li class="nav-cta-mobile"><a href="#kontakt" class="btn btn-primary">Kontakt aufnehmen</a></li>
 </ul>
@@ -492,25 +485,21 @@ footer ul a:hover{color:var(--gold)}
   </div>
 </section>
 
-<!-- SERVICES -->
-<section class="block" id="leistungen">
+<!-- SERVICES (compact) -->
+<section class="block block-compact" id="leistungen">
   <div class="container">
-    <div class="head-center reveal">
-      <div class="eyebrow">Unsere Leistungen</div>
-      <h2>Was wir für Sie begleiten</h2>
-      <p>Als unabhängiger Versicherungsmakler vergleichen wir den Markt und finden das Passende für Sie – privat und gewerblich.</p>
-    </div>
-    <div class="topics">
-      <ul class="topics-grid">
-        <li class="topic-pill reveal"><strong>Altersvorsorge</strong><span>Lebensstandard im Alter sichern</span></li>
-        <li class="topic-pill reveal"><strong>Haftpflicht &amp; Rechtsschutz</strong><span>inkl. Unfallversicherung</span></li>
-        <li class="topic-pill reveal"><strong>Existenzabsicherung</strong><span>BU, Hinterbliebene &amp; Absicherung</span></li>
-        <li class="topic-pill reveal"><strong>Gesundheit</strong><span>Privat &amp; Zusatzversicherungen</span></li>
-        <li class="topic-pill reveal"><strong>Wohnen &amp; Leben</strong><span>Hausrat, Gebäude &amp; Kfz</span></li>
-        <li class="topic-pill reveal"><strong>Baufinanzierung</strong><span>Neubau, Kauf &amp; Modernisierung</span></li>
-        <li class="topic-pill reveal"><strong>Firmenkunden</strong><span>Gewerbliche Absicherung</span></li>
+    <div class="topics reveal">
+      <p class="topics-lead">Privat &amp; gewerblich – vom Markt, nicht von einer Gesellschaft.</p>
+      <ul class="topics-chips" aria-label="Themengebiete">
+        <li>Altersvorsorge</li>
+        <li>Haftpflicht &amp; Rechtsschutz</li>
+        <li>Existenzabsicherung</li>
+        <li>Gesundheit</li>
+        <li>Wohnen &amp; Kfz</li>
+        <li>Baufinanzierung</li>
+        <li>Firmenkunden</li>
       </ul>
-      <p class="topics-note reveal">Weitere Themen? Sprechen Sie uns einfach an – wir finden eine Lösung.</p>
+      <p class="topics-note">Weitere Themen? Einfach anfragen – wir finden eine Lösung.</p>
     </div>
   </div>
 </section>
@@ -724,10 +713,13 @@ footer ul a:hover{color:var(--gold)}
       </div>
       <div><h4>Leistungen</h4><ul>
         <li><a href="#leistungen">Altersvorsorge</a></li>
-        <li><a href="#portal">Kundenportal</a></li>
-        <li><a href="#service">Ordner-Service (49 €)</a></li>
+        <li><a href="#leistungen">Haftpflicht &amp; Rechtsschutz</a></li>
+        <li><a href="#leistungen">Gesundheit</a></li>
+        <li><a href="#leistungen">Wohnen &amp; Kfz</a></li>
         <li><a href="#leistungen">Baufinanzierung</a></li>
         <li><a href="#leistungen">Firmenkunden</a></li>
+        <li><a href="#portal">Kundenportal</a></li>
+        <li><a href="#service">Ordner-Service</a></li>
       </ul></div>
       <div><h4>Kontakt</h4><ul>
         <li><a href="mailto:kunden@fvm-makler.de">kunden@fvm-makler.de</a></li>
@@ -772,9 +764,9 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')setNavOpen(false)});
 const hdr=document.getElementById('hdr');
 window.addEventListener('scroll',()=>{hdr.classList.toggle('scrolled',window.scrollY>30)});
 const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
-let pillI=0,revealI=0;
+let revealI=0;
 document.querySelectorAll('.reveal').forEach((el)=>{
-  const delay=el.classList.contains('topic-pill')?(pillI++)*70:(revealI++%3)*90;
+  const delay=(revealI++%3)*90;
   el.style.transitionDelay=delay+'ms';
   io.observe(el);
 });
