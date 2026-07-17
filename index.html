@@ -50,11 +50,19 @@ a{text-decoration:none;color:inherit}
 .btn-primary:hover{transform:translateY(-3px);box-shadow:0 22px 46px -12px rgba(42,167,155,.75)}
 .btn-primary::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,transparent,rgba(255,255,255,.35),transparent);transform:translateX(-120%);transition:.6s}
 .btn-primary:hover::after{transform:translateX(120%)}
+.btn-outline{background:transparent;color:var(--teal);border:1.5px solid rgba(51,183,172,.55)}
+[data-theme="dark"] .btn-outline{color:var(--teal2);border-color:rgba(79,214,201,.45);background:rgba(51,183,172,.06)}
+[data-theme="light"] .btn-outline{background:rgba(51,183,172,.06)}
+.btn-outline:hover{transform:translateY(-3px);border-color:var(--teal);background:rgba(51,183,172,.14);color:var(--ink)}
+[data-theme="dark"] .btn-outline:hover{color:#fff;background:rgba(51,183,172,.16)}
 .btn-ghost{background:rgba(255,255,255,.06);color:var(--ink);border:1.5px solid rgba(203,161,78,.55)}
 [data-theme="dark"] .btn-ghost{color:#fff;background:rgba(255,255,255,.08)}
 [data-theme="light"] .btn-ghost{background:rgba(19,36,54,.04);border-color:rgba(169,127,42,.5)}
 .btn-ghost:hover{border-color:var(--gold);background:rgba(203,161,78,.14);transform:translateY(-3px);color:var(--ink)}
 [data-theme="dark"] .btn-ghost:hover{color:#fff}
+.btn .btn-tag{display:inline-flex;align-items:center;padding:3px 8px;border-radius:6px;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;background:rgba(255,255,255,.22);color:#fff;line-height:1.2}
+.btn-outline .btn-tag{background:rgba(51,183,172,.18);color:var(--teal)}
+[data-theme="dark"] .btn-outline .btn-tag{color:var(--teal2)}
 .reveal{opacity:0;transform:translateY(30px);transition:1s cubic-bezier(.2,.8,.2,1)}
 .reveal.in{opacity:1;transform:none}
 
@@ -131,10 +139,12 @@ footer .logo img{height:44px}
 [data-theme="light"] .hero h1 em{color:var(--teal)}
 .hero p{font-size:19px;color:var(--soft);max-width:540px;margin-bottom:40px;font-weight:400}
 .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
-.hero-stats{display:flex;gap:48px;margin-top:56px;padding-top:36px;border-top:1px solid var(--line)}
-.hero-stats .num{font-size:32px;font-weight:600;color:var(--ink);letter-spacing:-1px}
-[data-theme="dark"] .hero-stats .num{color:#fff}
-.hero-stats .lbl{font-size:13px;color:var(--muted);font-weight:400;margin-top:2px}
+.hero-cta-note{margin-top:14px;font-size:14px;color:var(--muted);font-weight:400;line-height:1.5;max-width:420px}
+.hero-cta-note strong{color:var(--soft);font-weight:500}
+.trust-strip{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 28px;padding:28px 0 0;border-top:1px solid var(--line);margin-top:8px}
+.trust-strip span{font-size:13.5px;color:var(--muted);font-weight:400}
+.trust-strip b{color:var(--ink);font-weight:600;margin-right:4px}
+[data-theme="dark"] .trust-strip b{color:#fff}
 .g-rating{display:inline-flex;align-items:center;gap:10px;margin-top:28px;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card-grad);text-decoration:none;color:inherit;transition:.25s;max-width:100%}
 .g-rating:hover{border-color:rgba(203,161,78,.45);transform:translateY(-2px)}
 .g-rating .stars{color:#f4b400;letter-spacing:1px;font-size:15px;line-height:1}
@@ -379,7 +389,6 @@ footer ul a:hover{color:var(--gold)}
   [data-theme="dark"] body.nav-open header{background:rgba(10,26,47,.98)}
   [data-theme="light"] body.nav-open header{background:rgba(238,243,248,.98)}
   .hero .container{gap:36px}
-  .hero-stats{gap:24px;flex-wrap:wrap}
   .svc{gap:40px}
   section.block{padding:76px 0}
   .head-center{margin-bottom:48px}
@@ -394,8 +403,8 @@ footer ul a:hover{color:var(--gold)}
   .hero p{font-size:16px;margin-bottom:28px}
   .hero-cta{flex-direction:column;gap:10px}
   .hero-cta .btn{width:100%;justify-content:center;padding:14px 20px}
-  .hero-stats{flex-direction:column;gap:16px;margin-top:36px;padding-top:24px}
-  .hero-stats>div{width:100%}
+  .hero-cta-note{text-align:center;max-width:none}
+  .trust-strip{gap:8px 16px;justify-content:flex-start}
   .glass-card{padding:24px 20px}
   .badge{font-size:11px;padding:8px 14px;margin-bottom:18px}
   .svc .price-tag .amt{font-size:42px}
@@ -460,20 +469,19 @@ footer ul a:hover{color:var(--gold)}
       <h1>Ihr Versicherungsmakler in <em>Rockenhausen</em></h1>
       <p>Persönlich und individuell. Sie sind unser Kunde – nicht die Versicherung. Aus der ganzen Fülle des Marktes finden wir für Sie das beste Angebot.</p>
       <div class="hero-cta">
-        <a href="#portal" class="btn btn-primary">Kundenportal entdecken
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-        <a href="#service" class="btn btn-ghost">Ordner-Service ansehen</a>
+        <a href="#service" class="btn btn-primary">
+          <span class="btn-tag">Neu</span>
+          Ordner-Service starten
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#portal" class="btn btn-outline">Kundenportal entdecken</a>
       </div>
+      <p class="hero-cta-note"><strong>Neu:</strong> Ordner rein → digital im Portal. Beides greift ineinander.</p>
       <a class="g-rating" href="https://g.page/r/CeHEaYprJcRAEBM/review" target="_blank" rel="noopener noreferrer" aria-label="Google-Bewertungen der FVM GmbH – 5,0 von 5 bei 10 Rezensionen">
         <span class="stars" aria-hidden="true">★★★★★</span>
         <span class="score">5,0</span>
         <span class="meta"><b>10 Google-Bewertungen</b> · alle 5 Sterne</span>
       </a>
-      <div class="hero-stats">
-        <div><div class="num">100 %</div><div class="lbl">unabhängig &amp; ungebunden</div></div>
-        <div><div class="num">Marktweit</div><div class="lbl">Vergleich statt einer Gesellschaft</div></div>
-        <div><div class="num">Persönlich</div><div class="lbl">vor Ort in Rockenhausen</div></div>
-      </div>
     </div>
     <div class="glass-card">
       <h3>Ihr direkter Draht zu uns</h3>
@@ -521,7 +529,7 @@ footer ul a:hover{color:var(--gold)}
         <div class="portal-cta">
           <a href="#kontakt" class="btn btn-primary">Zugang beantragen
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-          <a href="#service" class="btn btn-ghost">Neu? Ordner-Service →</a>
+          <a href="#service" class="btn btn-outline"><span class="btn-tag">Neu</span> Ordner-Service →</a>
         </div>
         <div class="hint" style="margin-top:18px">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
@@ -540,7 +548,7 @@ footer ul a:hover{color:var(--gold)}
 <section class="block" id="service">
   <div class="container">
     <div class="head-center reveal">
-      <div class="eyebrow">Unser Einstieg für Neukunden</div>
+      <div class="eyebrow">Neu · Einstieg für Neukunden</div>
       <h2>Vom Ordner-Chaos zum Kundenportal</h2>
       <p>Wir prüfen, sortieren und digitalisieren Ihren Versicherungsbestand – danach haben Sie alles jederzeit im Blick.</p>
     </div>
@@ -627,6 +635,17 @@ footer ul a:hover{color:var(--gold)}
         <li><span class="ck">✓</span> Maßgeschneiderte Lösungen statt Standardprodukte</li>
         <li><span class="ck">✓</span> Persönlicher Ansprechpartner direkt in Rockenhausen</li>
       </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<section class="block block-compact" style="padding-top:0;padding-bottom:0" aria-label="Kurzüberblick">
+  <div class="container">
+    <div class="trust-strip reveal">
+      <span><b>100 %</b> unabhängig &amp; ungebunden</span>
+      <span><b>Marktweit</b> Vergleich statt einer Gesellschaft</span>
+      <span><b>Persönlich</b> vor Ort in Rockenhausen</span>
     </div>
   </div>
 </section>
